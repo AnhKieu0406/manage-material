@@ -17,9 +17,14 @@ import vn.com.devmaster.service.managematerial.service.ProductService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -109,5 +114,12 @@ public class ProductController {
 //    public String  byIdList(@PathVariable("id") Integer id,Model model){
 //        model.addAttribute("findbyid",productRepo.getProduct(id));
 //        return "/features/product/product_image";
+//    }
+
+//    public static void main(String[] args) throws ParseException {
+//        String dateS = "10-08-2023";
+//        ZoneId hcm = ZoneId.of("Asia/Ho_Chi_Minh");
+//        Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateS);
+//        System.out.println(date.toInstant().atZone(hcm));
 //    }
 }
