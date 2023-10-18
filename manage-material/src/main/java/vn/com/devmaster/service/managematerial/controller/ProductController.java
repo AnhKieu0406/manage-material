@@ -72,18 +72,13 @@ public class ProductController {
         List<Category> category = categorySer.getAllCategory();
         List<ProductByClassId> list = productRepo.findAllByCategory_Id(id);
 
-//        if(list.get(id) !=null{
-//            model.addAttribute("categories",categorySer.getAllCategory());
-//            model.addAttribute("products", productRepo.findAllByCategory_Id(id));
-//        }else {
-//            model.addAttribute("Lo")
-//        }
+
 
         model.addAttribute("categories",category);
         model.addAttribute("products", list);
 
 
-        return "/features/product/shop";
+        return "/features/product/view_product";
     }
 
     @GetMapping("/upload")
