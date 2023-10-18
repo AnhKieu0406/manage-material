@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/index}">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Custom fonts for this template-->
+
+    <link th:href="@{/demo.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+</head>
+<body>
+<div class="container" layout:fragment="content" style="margin-top: 10px;">
+    <div class="row"
+         style="border: 1px darkgrey solid; border-radius: 10px; width: 50%; margin: 0 auto; padding: 20px;">
+        <div class="col-sm-12">
+
+            <h2 class="myclass">Create Product</h2>
+            <form th:action="@{/api/category/add}" method="post" th:object="${productDto}"
+                  enctype="multipart/form-data">
+                <input type="hidden" name="id" th:field="*{id}">
+                <div class="form-group">
+                    <label>Select Category</label>
+                    <select type="text" class="form-control" required th:field="*{idcategory}"
+                            name="name" placeholder="Enter name">
+                        <option th:each="category:${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}">
+
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" th:field="*{name}" name="name" placeholder="name">
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <input type="text" class="form-control" th:field="*{notes}" name="note" placeholder="Enter note">
+                </div>
+
+                <div class="form-group">
+                    <label>Image</label>
+                    <input type="file" class="form-control" th:field="*{image}" name="photo"  placeholder="Enter photo">
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" class="form-control" th:field="*{price}" name="price" placeholder="Enter price">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="text" class="form-control" th:field="*{quatity}" name="quantity" placeholder="Enter Quantity">
+                </div>
+                <div class="form-group">
+                    <label>Create date</label>
+                    <input type="date" class="form-control" th:field="*{createdDate}" name="date" placeholder="Enter date">
+                </div>
+
+                <div class="form-group">
+                    <label>Update date</label>
+                    <input type="date" class="form-control" th:field="*{updatedDate}" name="date">
+                </div>
+                <div class="form-group">
+                    <label>Created by</label>
+                    <input type="text" class="form-control" th:field="*{createdBy}" name="createby">
+                </div>
+                <div class="form-group">
+                    <label>Update by</label>
+                    <input type="text" class="form-control" th:field="*{updatedBy}" name="updateBy">
+                </div>
+
+                <div class="form-group">
+                    <label>Is acticve</label>
+                    <input type="text" class="form-control" th:field="*{isactive}" name="isactive">
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="reset" class="btn btn-primary">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

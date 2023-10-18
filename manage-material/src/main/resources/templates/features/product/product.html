@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+     >
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Custom fonts for this template-->
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <!-- Bootstrap CSS -->
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+<!--<div  layout:fragment="content">-->
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- Product main img -->
+                <div class="col-md-5 col-md-push-2">
+                    <div id="product-main-img">
+                        <div class="product-preview">
+                            <img th:src="@{'/img/product_image/'+${productId.image}}" alt="">
+                        </div>
+
+                        <div class="product-preview" >
+                            <img th:src="@{'/img'+${findbyID.get(0).url}}" alt="">
+                        </div>
+
+                        <div class="product-preview">
+                            <img th:src="@{'/img'+${findbyID.get(1).url}}" alt="">
+                        </div>
+
+                        <div class="product-preview">
+                            <img th:src="@{'/img'+${findbyID.get(2).url}}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- /Product main img -->
+
+                <!-- Product thumb imgs -->
+                <div class="col-md-2  col-md-pull-5">
+                    <div id="product-imgs">
+                        <div class="product-preview">
+                            <img th:src="@{'/img/product_image/'+${productId.image}}" alt="">
+                        </div>
+
+                        <div class="product-preview" >
+                            <img th:src="@{'/img'+${findbyID.get(0).url}}" alt="">
+                        </div>
+
+                        <div class="product-preview">
+                            <img th:src="@{'/img'+${findbyID.get(1).url}}" alt="">
+                        </div>
+
+                        <div class="product-preview">
+                            <img th:src="@{'/img'+${findbyID.get(2).url}}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- /Product thumb imgs -->
+
+                <!-- Product details -->
+                <div class="col-md-5">
+                    <div class="product-details">
+                        <h2 class="product-name" th:text="${productId.name}"></h2>
+                        <div>
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                        </div>
+                        <div>
+                            <h3 class="product-price" th:text="${#numbers.formatDecimal(productId.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"><del class="product-old-price">15,000,000VND</del></h3>
+                            <span class="product-available">In Stock</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+                        <div class="product-options">
+                            <label>
+                                Size
+                                <select class="input-select">
+                                    <option value="0">X</option>
+                                </select>
+                            </label>
+                            <label>
+                                Color
+                                <select class="input-select">
+                                    <option value="0">Red</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="add-to-cart">
+                            <div class="qty-label">
+                                Qty
+                                <div class="input-number">
+                                    <input type="number">
+                                    <span class="qty-up">+</span>
+                                    <span class="qty-down">-</span>
+                                </div>
+                            </div>
+                            <button class="add-to-cart-btn" ><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        </div>
+
+                        <ul class="product-btns">
+                            <li><a  th:href="@{/view/editOrder}"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+                            <li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+                        </ul>
+
+                        <ul class="product-links">
+                            <li>Category:</li>
+                            <li><a href="#">Headphones</a></li>
+                            <li><a href="#">Accessories</a></li>
+                        </ul>
+
+                        <ul class="product-links">
+                            <li>Share:</li>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /SECTION -->
+</div>
+
+<!-- jQuery Plugins -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-zoom/1.6.1/jquery.zoom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/fontawesome.min.js"></script>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>

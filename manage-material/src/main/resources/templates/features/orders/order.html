@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/index}">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>[[${pageTitle}]]</title>
+
+    <!-- Custom fonts for this template-->
+
+    <link th:href="@{/demo.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+</head>
+<body>
+<div  layout:fragment="content" class="container">
+    <div>
+        <h1>[[${pageTitle}]]</h1>
+        <div class="card-body">
+            <form th:action="@{'/view/save/'+${id}}" method="post" th:object="${order}"
+            style="max-width: 100rem">
+                <div class="border">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Id Order:</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="${order.idorders}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">ID Customer</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{customer.id}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Order date:</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="${order.ordersDate}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Total Money</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{totalMoney}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Notes</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{notes}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Name Reciver</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{nameReciver}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Adress</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{address}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Phone</label>
+                        <div class="col-sm-8">
+                            <input type="text" th:field="*{phone}">
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary m-2">Save</button>
+                        <button type="reset" class="btn btn-secondary m-2">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

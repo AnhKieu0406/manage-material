@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/index}">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Custom fonts for this template-->
+
+    <link th:href="@{/demo.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script type = "text/javascript">
+        // console.log(11111111111)
+        // $(document).ready(function () {
+        //     $('#two:first').addClass("d-none");
+        //     $('#two').click(function (){
+        //         $('#one').addClass("d-none");
+        //         $('#two:first').removeClass("d-none");
+        //     });
+        // });
+    </script>
+
+</head>
+<body>
+<div  layout:fragment="content">
+    <div id="one">
+        <div class="text-center m-2">
+<!--            <a class="h3" th:href="@{/view/addStudent}">Create new student</a>-->
+        </div>
+        <table >
+            <thead class="table-dark">
+            <th>STT</th>
+            <th>Id Order</th>
+            <th>Id Customer</th>
+            <th>Order date/th>
+            <th>Total Money</th>
+            <th>Notes</th>
+            <th>Name Reciver</th>
+            <th>Adress</th>
+            <th>Phone</th>
+            <th>Action</th>
+            </thead>
+            <tbody>
+            <tr th:each="orders: ${orders} ">
+                <td th:text="${orders.id}"></td>
+                <td th:text="${orders.idorders}"></td>
+                <td th:text="${orders.getCustomer().id}"></td>
+                <td th:text="${orders.ordersDate}"></td>
+                <td th:text="${orders.totalMoney}"></td>
+                <td th:text="${orders.notes}"></td>
+                <td th:text="${orders.nameReciver}"></td>
+                <td th:text="${orders.address}"></td>
+                <td th:text="${orders.phone}"></td>
+<!--                <td>-->
+<!--&lt;!&ndash;                    @{'/view/edit/'+${student.id}}&ndash;&gt;-->
+<!--                    <a th:href="@{'/view/edit/'+${orders.id}}"-->
+<!--                       class="btn btn-primary">Edit</a>-->
+<!--&lt;!&ndash;                    @{/view/demo/students/{id}(id=${student.id})}&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a th:href="@{/view/delete/{id}(id=${orders.id})}"&ndash;&gt;-->
+<!--&lt;!&ndash;                       class="btn btn-danger">Delete</a>&ndash;&gt;-->
+<!--                </td>-->
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
