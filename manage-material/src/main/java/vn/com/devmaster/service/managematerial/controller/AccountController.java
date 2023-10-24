@@ -18,7 +18,7 @@ public class AccountController {
     @Autowired
     UserService userService;
     @GetMapping("/login")
-    public  String viewlogin( @ModelAttribute("customer") Customer customer){
+    public  String viewlogin(){
         return "/layout/login";
     }
     @GetMapping("/login-check")
@@ -37,21 +37,21 @@ public class AccountController {
 
 
     @PostMapping("login")
-    public String login(@ModelAttribute("customer")Customer customer1, Model model,@RequestParam("username")String username,@RequestParam("password")String password){
+    public String login( Model model,@RequestParam("username")String username,@RequestParam("password")String password){
             try {
                 Customer customer = userService.findByName(username);
                 if(!customer.getPassword().equals(password)){
-                    model.addAttribute("ssss","Sai tên dăng nha hoặc mật khẩu");
+                    model.addAttribute("message","Sai tên dăng nha hoặc mật khẩu");
 
                 }else {
                 return "redirect:/shopping-cart/check-out";
                 }
 
             }catch (Exception e){
-                model.addAttribute("ssss","username invalid!");
+                model.addAttribute("message","username invalid!");
             }
 
-            return "redirect:/account/login";
+            return "/layout/login";
     }
 
 }
