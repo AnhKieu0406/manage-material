@@ -11,3 +11,8 @@ spring:
 
   banner:
     location: classpath:banner.txt
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: USER

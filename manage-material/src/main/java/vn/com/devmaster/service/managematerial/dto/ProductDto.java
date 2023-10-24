@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * DTO for {@link vn.com.devmaster.service.managematerial.dommain.Product}
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 @Builder
-public class ProductDto  {
+public class ProductDto {
     Integer id;
     @Size(max = 500)
     String name;
@@ -22,7 +23,6 @@ public class ProductDto  {
     String notes;
     @Size(max = 550)
     String image;
-    CategoryDto idcategory;
     Double price;
     Integer quatity;
     LocalDate createdDate;
@@ -33,6 +33,7 @@ public class ProductDto  {
     String updatedBy;
     Byte isactive;
 
+    CategoryDto category;
 
 
 }

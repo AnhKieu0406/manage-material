@@ -8,6 +8,8 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -57,14 +59,7 @@ public class Order {
     private Customer customer;
 
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "orders_payment",
-//            joinColumns = @JoinColumn(name = "IDORD"),
-//            inverseJoinColumns =  @JoinColumn(name = "IDPAYMENT")
-//    )
-//    @JsonIgnore
-//    @Fetch(FetchMode.JOIN)
-//    private Set<PaymentMethod> paymentMethodSet;
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    private List<OrdersDetail> ordersDetails = new ArrayList<>();
 
 }

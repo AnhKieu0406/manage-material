@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -42,9 +43,6 @@ public class Product {
 
     private String image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDCATEGORY")
-    private Category idcategory;
 
     @Column(name = "PRICE")
     private double price;
@@ -71,8 +69,13 @@ public class Product {
     @Column(name = "ISACTIVE")
     private Byte isactive;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IDCATEGORY")
+    private Category idcategory;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     Set<ProductImage> list ;
 
-
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    List<OrdersDetail> ordersDetails;
 }

@@ -54,5 +54,8 @@ public class Customer {
     @OneToMany(targetEntity = Order.class,mappedBy = "customer",orphanRemoval = false,fetch = FetchType.LAZY)
     Set<Order> orderSet;
 
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private ShoppingCart cart;
+
 
 }

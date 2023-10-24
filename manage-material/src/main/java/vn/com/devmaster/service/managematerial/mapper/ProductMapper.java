@@ -14,6 +14,9 @@ public class ProductMapper implements EntityMapper<Product, ProductDto>{
    @Autowired
    CategoryMapper categoryMapper;
 
+   @Autowired
+   OrderdetailMapper orderdetailMapper;
+
     @Override
     public Product toEntity(ProductDto dto) {
         Product product = Product.builder()
@@ -29,7 +32,8 @@ public class ProductMapper implements EntityMapper<Product, ProductDto>{
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getUpdatedBy())
                 .isactive(dto.getIsactive())
-                .idcategory(categoryMapper.toEntity(dto.getIdcategory()))
+                .idcategory(categoryMapper.toEntity(dto.getCategory()))
+//                .ordersDetails(orderdetailMapper.toEntity(dto.getOrdersDetails()))
                 .build();
         return product;
     }
@@ -58,7 +62,8 @@ public class ProductMapper implements EntityMapper<Product, ProductDto>{
                 .createdBy(product.getCreatedBy())
                 .updatedBy(product.getUpdatedBy())
                 .isactive(product.getIsactive())
-                .idcategory(categoryMapper.toDto(product.getIdcategory()))
+                .category(categoryMapper.toDto(product.getIdcategory()))
+//                .ordersDetails(orderdetailMapper.toDto(product.getOrdersDetails()))
                 .build();
         return productDto;
     }

@@ -34,19 +34,12 @@ public class CategoryDto implements Serializable {
     Instant createdDate;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss'")
-    String updatedDate;
+    Instant updatedDate;
     @Size(max = 50)
     String createdBy;
     @Size(max = 50)
     String updatedBy;
     Byte isactive;
 
-//    public void setCreatedDate(String createdDate) {
-//        LocalDate dateTime =LocalDate.parse(createdDate);
-//        this.createdDate = String.valueOf(dateTime);
-//    }
-//
-//    public void setUpdatedDate(String updatedDate) {
-//        this.updatedDate = updatedDate;
-//    }
+
 }

@@ -106,7 +106,7 @@
             let items;
             items = document.querySelectorAll('[id="${products.id}"]');
             console.log(1111111111111111111)
-            $('.card-item  #items').mousemove(function (e) {
+            $('.card-item ').mousemove(function (e) {
                 var y = e.pageY;
                 var x = e.pageX;
                 console.log(1)
@@ -140,7 +140,14 @@
         </div>
     </div>
     <div class="row">
+        <div th:text="${error}">
+            <a class="active" href="cart.html">
+                <span class="icon-shopping-cart"><p th:text="${}"></p></span>
+                <span class="badge badge-warning"> $448.42</span>
+            </a>
+        </div>
         <div class="card card-item " th:each="products: ${products}">
+
             <div th:id="${products.id}" class="p-img">
                 <a th:href="@{'/api/findById/' +${products.id}}">
                     <!--                    /get-image/-->
@@ -227,7 +234,7 @@
                         <p class="text-danger" th:case="*"><i class="fa-solid fa-xmark"></i> Hết hàng</p>
                     </div>
                 </span>
-                    <span class="p-cart"><a th:href="@{/view/new_cart}"><i
+                    <span class="p-cart"><a th:href="@{'/shopping-cart/add-cart/'+${products.id}}"><i
                             class="fa-solid fa-cart-shopping"></i></a></span>
                 </div>
             </div>

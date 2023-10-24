@@ -28,7 +28,7 @@ public class OrderMapper implements EntityMapper<Order, OrderDto>{
                 .nameReciver(dto.getNameReciver())
                 .address(dto.getAddress())
                 .phone(dto.getPhone())
-//                .ordersDetailDto(orderdetailMapper.toEntity(dto.getOrdersDetail()))
+//               .ordersDetailDto(orderdetailMapper.toEntity(dto.getOrdersDetail()))
                 .build();
         return order;
     }

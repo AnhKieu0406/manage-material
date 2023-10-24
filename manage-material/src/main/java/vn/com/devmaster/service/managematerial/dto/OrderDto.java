@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
 
 /**
  * DTO for {@link vn.com.devmaster.service.managematerial.dommain.Order}
@@ -27,6 +28,5 @@ public class OrderDto {
     @Size(max = 50)
     String phone;
     CustomerDto customer;
-    OrdersDetailDto ordersDetail;
 
 }

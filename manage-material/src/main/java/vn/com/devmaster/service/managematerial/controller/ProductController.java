@@ -1,13 +1,15 @@
 package vn.com.devmaster.service.managematerial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import vn.com.devmaster.service.managematerial.dommain.Category;
-import vn.com.devmaster.service.managematerial.dommain.Product;
+import vn.com.devmaster.service.managematerial.dommain.*;
 import vn.com.devmaster.service.managematerial.dto.CategoryDto;
+import vn.com.devmaster.service.managematerial.dto.OrdersDetailDto;
 import vn.com.devmaster.service.managematerial.dto.ProductDto;
 import vn.com.devmaster.service.managematerial.projection.ProductByClassId;
 import vn.com.devmaster.service.managematerial.projection.ProductImageById;
@@ -39,6 +41,10 @@ public class ProductController {
     @Autowired
     ProductRepository productRepo;
 
+
+
+
+
     // find all Category
     @GetMapping("/category/findAll")
     public String getAllCat(Model model){
@@ -58,7 +64,7 @@ public class ProductController {
         return "/features/category/category_add";
     }
     @PostMapping("/category/add")
-    public  String postCarAdd(@ModelAttribute("category") CategoryDto category){
+    public  String postCarAdd(@ModelAttribute("category") Category category) throws ParseException {
         categorySer.addCategory(category);
         return "redirect:/features/category/view_category";
     }
@@ -76,12 +82,13 @@ public class ProductController {
     public String shopByCategory(@PathVariable(value = "id") Integer id, Model model) {
         List<Category> category = categorySer.getAllCategory();
         List<ProductByClassId> list = productRepo.findAllByCategory_Id(id);
-
-
-
-        model.addAttribute("categories",category);
-        model.addAttribute("products", list);
-
+        Product product = productRepo.findAllById(id);
+        if (list!=null){
+            model.addAttribute("categories",category);
+            model.addAttribute("products", list);
+        }else {
+            model.addAttribute("error","ko co san pham nao");
+        }
 
         return "/features/product/view_product";
     }
@@ -110,11 +117,21 @@ public class ProductController {
         return "/features/product/product";
     }
 
-//    @GetMapping("/findbyid")
-//    public String  byIdList(@PathVariable("id") Integer id,Model model){
-//        model.addAttribute("findbyid",productRepo.getProduct(id));
-//        return "/features/product/product_image";
+
+
+
+//    @GetMapping("/add_cart/{id}")
+//    public String addCart(@PathVariable("id")Integer id){
+//        Product product = productSer.findById(id);
+//        if(product!= null){
+//            OrdersDetail ordersDetail = new OrdersDetail();
+//            ordersDetail.setProduct(product.getId());
+//            ordersDetail.setQty(1);
+//            ordersDetail.setProduct(product.getImage());
+//        }
+//        return "redirect:/features/product/view_product";
 //    }
+
 
 //    public static void main(String[] args) throws ParseException {
 //        String dateS = "10-08-2023";

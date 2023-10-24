@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import vn.com.devmaster.service.managematerial.dommain.Product;
 import vn.com.devmaster.service.managematerial.dto.ProductDto;
 import vn.com.devmaster.service.managematerial.mapper.ProductMapper;
-import vn.com.devmaster.service.managematerial.projection.ProductByClassId;
 import vn.com.devmaster.service.managematerial.reponsitory.ProductRepository;
 
 import java.util.List;
@@ -30,6 +29,12 @@ public class ProductService {
     public void save(List<ProductDto> list){
         productRepo.saveAll(productMap.toEntity(list));
     }
+
+    public Product findById(Integer id) {
+        return productRepo.findAllById(id);
+    }
+
+
 
 
 //    public List<ProductDto> getAllProductsByCategoryId(Integer id){

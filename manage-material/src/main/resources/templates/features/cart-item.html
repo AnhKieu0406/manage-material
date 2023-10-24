@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/index}">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JSP Page</title>
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container"  layout:fragment="content">
+    <h2>List Cart</h2>
+    <div class="rows">
+        <div class="col-sm-9">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <div ><i class="fa-solid fa-cart-shopping"> <span th:text="${cartCount}"></span></i></div>
+                <div th:each="cart:${cartItem}" >
+                    <form th:action="@{/shopping-cart/update}" method="post" >
+                        <input type="hidden" name="id" th:value="${cart.product.id}" />
+                        <tr>
+                            <td th:text="${cart.product.id}"></td>
+                            <td th:text="${cart.name}"></td>
+                            <td th:text="${#numbers.formatDecimal(cart.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></td>
+                            <td><input name="qty" type="number" th:value="${cart.qty}" min="1" max="10"></td>
+                            <td th:text="${#numbers.formatDecimal(cart.price*cart.qty,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></td>
+                            <td><a class="btn btn-primary btn-sm"
+                                   th:href="@{'/shopping-cart/del/'+${cart.product.id}}">Remove</a></td>
+                        </tr>
+                    </form>
+                </div>
+                </tbody>
+            </table>
+            <p  th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">Tong Tien:${TOTAL}</p>
+            <hr />
+            <a class="btn btn-primary btn-sm" href="/shopping-cart/clear">Clear Cart</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/api/listproduct}">Add more</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/account/login}">check out</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

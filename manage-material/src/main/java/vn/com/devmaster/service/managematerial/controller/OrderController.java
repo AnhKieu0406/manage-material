@@ -22,8 +22,5 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/findall")
-    public List<OrderDto> findAll(){
-        return orderService.findAll();
-    }
+
 }

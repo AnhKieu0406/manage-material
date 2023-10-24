@@ -7,6 +7,7 @@ import vn.com.devmaster.service.managematerial.dto.CategoryDto;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -20,7 +21,7 @@ public class CategoryMapper implements EntityMapper<Category, CategoryDto>{
                 .notes(dto.getNotes())
                 .icon(dto.getIcon())
                 .createdDate(dto.getCreatedDate())
-                .updatedDate(Instant.parse(dto.getUpdatedDate()))
+                .updatedDate(dto.getUpdatedDate())
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getUpdatedBy())
                 .isactive(dto.getIsactive())
@@ -45,8 +46,8 @@ public class CategoryMapper implements EntityMapper<Category, CategoryDto>{
                 .name(category.getName())
                 .notes(category.getNotes())
                 .icon(category.getIcon())
-                .createdDate(Instant.parse(String.valueOf(category.getCreatedDate())))
-                .updatedDate(String.valueOf(category.getUpdatedDate()))
+                .createdDate((category.getCreatedDate()))
+                .updatedDate(category.getUpdatedDate())
                 .createdBy(category.getCreatedBy())
                 .updatedBy(category.getUpdatedBy())
                 .isactive(category.getIsactive())

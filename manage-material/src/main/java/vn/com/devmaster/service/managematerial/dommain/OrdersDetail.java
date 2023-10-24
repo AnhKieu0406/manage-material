@@ -24,7 +24,12 @@ public class OrdersDetail {
     private Integer qty;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDORD")
-    private Order idord;
+    @JoinColumn(name = "IDORD", nullable = false)
+    private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IDPRODUCT", nullable = false)
+    private Product product;
+
 
 }
