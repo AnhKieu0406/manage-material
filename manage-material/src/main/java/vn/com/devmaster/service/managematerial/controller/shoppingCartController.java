@@ -82,7 +82,7 @@ public class shoppingCartController {
     @GetMapping("/check-out")
     public String checkout(Model model , Principal principal){
         if (principal == null){
-            return "redirect:/login";
+            return "redirect:/features/checkout";
         }
         String username = principal.getName();
         Customer customer = customerService.findByUsername(username);
@@ -92,7 +92,7 @@ public class shoppingCartController {
         }
             model.addAttribute("customer",customer);
         ShoppingCart cart = customer.getCart();
-        model.addAttribute("cart",cart);
+        model.addAttribute("cartItem",cart);
 //        model.addAttribute("cartItem",shoppingCart.getAllCartItem());
 //        model.addAttribute("Total",shoppingCart.totalAmount());
 //        model.addAttribute("cartCount",shoppingCart.getCount());

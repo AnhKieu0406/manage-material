@@ -83,7 +83,7 @@ public class LoginController {
             model.addAttribute("message", "username invalid!");
         }
 
-        return "redirect:/shopping-cart/check-out";
+        return "layout/login";
     }
 
 }
