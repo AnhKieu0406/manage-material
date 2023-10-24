@@ -6,12 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@Builder
 @Getter
 @Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "customer", schema = "manage-material")
 public class Customer {
@@ -20,15 +19,14 @@ public class Customer {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(max = 250)
+    @Size(min = 5, max = 20,message = "Name should have 5- 20 characters")
     @Column(name = "NAME", length = 250)
     private String name;
 
-    @Size(max = 50)
-    @Column(name = "USERNAME", length = 50)
+    @Size(min = 5, max = 20,message = "Username should have 5- 20 characters")
+    @Column(name = "USERNAME", length = 20)
     private String username;
 
-    @Size(max = 50)
     @Column(name = "PASSWORD", length = 50)
     private String password;
 
@@ -56,6 +54,7 @@ public class Customer {
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private ShoppingCart cart;
+
 
 
 }

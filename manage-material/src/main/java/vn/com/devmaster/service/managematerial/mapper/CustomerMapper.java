@@ -10,18 +10,18 @@ import java.util.List;
 public class CustomerMapper implements EntityMapper<Customer, CustomerDto> {
     @Override
     public Customer toEntity(CustomerDto customerDto) {
-        Customer customer = Customer.builder()
-                .id(customerDto.getId())
-                .name(customerDto.getName())
-                .username(customerDto.getUsername())
-                .password(customerDto.getPassword())
-                .address(customerDto.getAddress())
-                .email(customerDto.getEmail())
-                .phone(customerDto.getPhone())
-                .createdDate(customerDto.getCreatedDate())
-                .isactive(customerDto.getIsactive())
-                .build();
-        return customer;
+//        Customer customer = Customer.builder()
+//                .id(customerDto.getId())
+//                .name(customerDto.getName())
+//                .username(customerDto.getUsername())
+//                .password(customerDto.getPassword())
+//                .address(customerDto.getAddress())
+//                .email(customerDto.getEmail())
+//                .phone(customerDto.getPhone())
+//                .createdDate(customerDto.getCreatedDate())
+//                .isactive(customerDto.getIsactive())
+//                .build();
+        return null;
     }
 
     @Override
@@ -35,18 +35,18 @@ public class CustomerMapper implements EntityMapper<Customer, CustomerDto> {
 
     @Override
     public CustomerDto toDto(Customer customer) {
-
-        return CustomerDto.builder()
-                .id(customer.getId())
-                .name(customer.getName())
-                .username(customer.getUsername())
-                .password(customer.getPassword())
-                .address(customer.getAddress())
-                .email(customer.getEmail())
-                .phone(customer.getPhone())
-                .createdDate(customer.getCreatedDate())
-                .isactive(customer.getIsactive())
-                .build();
+            return null;
+//        return CustomerDto.builder()
+//                .id(customer.getId())
+//                .name(customer.getName())
+//                .username(customer.getUsername())
+//                .password(customer.getPassword())
+//                .address(customer.getAddress())
+//                .email(customer.getEmail())
+//                .phone(customer.getPhone())
+//                .createdDate(customer.getCreatedDate())
+//                .isactive(customer.getIsactive())
+//                .build();
     }
 
     @Override

@@ -7,6 +7,6 @@ import vn.com.devmaster.service.managematerial.dommain.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-    @Query(value = "select c.* from customer c where USERNAME =?1",nativeQuery = true)
-    Customer findCustomerByName(String username);
+      @Query(value = "select c.* from customer c where USERNAME =?1",nativeQuery = true)
+        Customer findByUsername(String username);
 }

@@ -11,7 +11,7 @@ public class UserService {
     CustomerRepository customerRepo;
 
     public Customer findByName(String username){
-        return customerRepo.findCustomerByName(username);
+        return customerRepo.findByUsername(username);
     }
 
 }

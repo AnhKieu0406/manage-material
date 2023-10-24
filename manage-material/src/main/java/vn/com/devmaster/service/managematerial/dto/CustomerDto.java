@@ -12,21 +12,17 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
-public class CustomerDto  {
-    Integer id;
-    @Size(max = 250)
-    String name;
-    @Size(max = 50)
-    String username;
-    @Size(max = 50)
-    String password;
-    @Size(max = 500)
-    String address;
-    @Size(max = 150)
-    String email;
-    @Size(max = 50)
-    String phone;
-    Instant createdDate;
-    Byte isactive;
+
+public class CustomerDto {
+
+    @Size(min = 3, max = 15, message = "Last name should have 3-15 characters")
+    private String name;
+
+    private String username;
+
+    @Size(min = 3, max = 15, message = "Password contains 3-10 characters")
+    private String password;
+
+
+    private String confirmPassword;
 }

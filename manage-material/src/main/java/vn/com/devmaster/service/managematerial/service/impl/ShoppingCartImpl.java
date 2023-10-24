@@ -53,4 +53,5 @@ public class ShoppingCartImpl implements ShoppingCartService {
                 .mapToDouble(item-> item.getPrice()* item.getQty())
                 .sum();
     }
+
 }

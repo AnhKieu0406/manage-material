@@ -10,8 +10,10 @@ import vn.com.devmaster.service.managematerial.dommain.CartItem;
 import vn.com.devmaster.service.managematerial.dommain.Customer;
 import vn.com.devmaster.service.managematerial.dommain.Product;
 
+import vn.com.devmaster.service.managematerial.dommain.ShoppingCart;
 import vn.com.devmaster.service.managematerial.dto.OrderDto;
 import vn.com.devmaster.service.managematerial.reponsitory.CustomerRepository;
+import vn.com.devmaster.service.managematerial.service.CustomerService;
 import vn.com.devmaster.service.managematerial.service.OrderService;
 import vn.com.devmaster.service.managematerial.service.ProductService;
 import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
@@ -32,7 +34,7 @@ public class shoppingCartController {
     ShoppingCartImpl shoppingCart;
 
     @Autowired
-    CustomerRepository customerRepo;
+    CustomerService customerService;
 
     @Autowired
     OrderService orderService;
@@ -78,10 +80,22 @@ public class shoppingCartController {
     }
 
     @GetMapping("/check-out")
-    public String checkout(Model model){
-        model.addAttribute("cartItem",shoppingCart.getAllCartItem());
-        model.addAttribute("Total",shoppingCart.totalAmount());
-        model.addAttribute("cartCount",shoppingCart.getCount());
+    public String checkout(Model model , Principal principal){
+        if (principal == null){
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        Customer customer = customerService.findByUsername(username);
+        if (customer.getPhone().trim().isEmpty() || (customer.getAddress().trim().isEmpty())){
+            model.addAttribute("customer", customer);
+            model.addAttribute("error","you must fill the information after check out");
+        }
+            model.addAttribute("customer",customer);
+        ShoppingCart cart = customer.getCart();
+        model.addAttribute("cart",cart);
+//        model.addAttribute("cartItem",shoppingCart.getAllCartItem());
+//        model.addAttribute("Total",shoppingCart.totalAmount());
+//        model.addAttribute("cartCount",shoppingCart.getCount());
         return "/features/checkout";
     }
 //    @PostMapping("save")
