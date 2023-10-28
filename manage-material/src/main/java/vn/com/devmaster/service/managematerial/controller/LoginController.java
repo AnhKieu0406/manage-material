@@ -91,6 +91,7 @@ public class LoginController {
                 model.addAttribute("Total", shoppingCart.totalAmount());
                 model.addAttribute("cartCount", shoppingCart.getCount());
                 session.setAttribute("customerName",customer);
+
 //                session.setAttribute("username",userService.findByName(username));
                 return "features/checkout";
             }

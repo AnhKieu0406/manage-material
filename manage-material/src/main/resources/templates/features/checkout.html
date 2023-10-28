@@ -224,19 +224,19 @@
 						<h3 class="title">Customer </h3>
 					</div>
 					<div class="form-group">
-						<input class="input" type="text" name="username"  th:field="${customer.name}"  >
+						<input class="input" type="text" name="username"  th:value="${session.customerName.username}"  >
 					</div>
 					<div class="form-group">
-						<input class="input" type="text" name="name"  th:field="${customer.username}" >
+						<input class="input" type="text" name="name"  th:value="${session.customerName.name}" >
 					</div>
 					<div class="form-group">
-						<input class="input" type="text" name=""  th:field="${customer.email}">
+						<input class="input" type="text" name=""  th:value="${session.customerName.email}">
 					</div>
 					<div class="form-group">
-						<input class="input" type="text" name="address"  th:field="${customer.address}">
+						<input class="input" type="text" name="address"  th:value="${session.customerName.address}">
 					</div>
 					<div class="form-group">
-						<input class="input" type="tel" name="tel"  th:field="${customer.password}">
+						<input class="input" type="tel" name="tel"  th:value="${session.customerName.password}">
 					</div>
 					<div class="form-group">
 						<div class="input-checkbox">

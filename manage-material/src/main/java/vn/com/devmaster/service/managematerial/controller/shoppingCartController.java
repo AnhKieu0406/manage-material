@@ -82,15 +82,14 @@ public class shoppingCartController {
     }
 
     @GetMapping("/check-out")
-    public String checkout(Principal principal, Model model, HttpSession session){
-
-        String username = session.getAttribute("customerName").toString();
-
-            Customer customer = customerService.findByUsername(username);
-            model.addAttribute("customer",customer);
-            model.addAttribute("cartItem",shoppingCart.getAllCartItem());
-            model.addAttribute("Total",shoppingCart.totalAmount());
-
+    public String checkout(Model model, HttpSession session){
+        OrderDto orderDto = new OrderDto();
+         model.addAttribute("order", new OrderDto());
+         Customer logInfor= (Customer) session.getAttribute("customerName");
+        model.addAttribute("customer", logInfor);
+        model.addAttribute("cartItem", shoppingCart.getAllCartItem());
+        model.addAttribute("Total", shoppingCart.totalAmount());
+        model.addAttribute("cartCount", shoppingCart.getCount());
 
 
         return "/features/checkout";
