@@ -11,6 +11,7 @@ import vn.com.devmaster.service.managematerial.dommain.Customer;
 import vn.com.devmaster.service.managematerial.dommain.Product;
 
 import vn.com.devmaster.service.managematerial.dommain.ShoppingCart;
+import vn.com.devmaster.service.managematerial.dto.CustomerDto;
 import vn.com.devmaster.service.managematerial.dto.OrderDto;
 import vn.com.devmaster.service.managematerial.reponsitory.CustomerRepository;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
@@ -20,6 +21,7 @@ import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
 
@@ -80,23 +82,18 @@ public class shoppingCartController {
     }
 
     @GetMapping("/check-out")
-    public String checkout(Model model , Principal principal){
-        if (principal == null){
-            return "redirect:/features/checkout";
-        }
-        String username = principal.getName();
-        Customer customer = customerService.findByUsername(username);
-        if (customer.getPhone().trim().isEmpty() || (customer.getAddress().trim().isEmpty())){
-            model.addAttribute("customer", customer);
-            model.addAttribute("error","you must fill the information after check out");
-        }
+    public String checkout(Principal principal, Model model, HttpSession session){
+
+        String username = session.getAttribute("customerName").toString();
+
+            Customer customer = customerService.findByUsername(username);
             model.addAttribute("customer",customer);
-        ShoppingCart cart = customer.getCart();
-        model.addAttribute("cartItem",cart);
-//        model.addAttribute("cartItem",shoppingCart.getAllCartItem());
-//        model.addAttribute("Total",shoppingCart.totalAmount());
-//        model.addAttribute("cartCount",shoppingCart.getCount());
+            model.addAttribute("cartItem",shoppingCart.getAllCartItem());
+            model.addAttribute("Total",shoppingCart.totalAmount());
+
+
+
         return "/features/checkout";
     }
-//    @PostMapping("save")
+
 }

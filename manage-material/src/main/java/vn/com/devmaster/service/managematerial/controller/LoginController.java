@@ -1,6 +1,7 @@
 package vn.com.devmaster.service.managematerial.controller;
 
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +11,12 @@ import vn.com.devmaster.service.managematerial.dommain.Customer;
 import vn.com.devmaster.service.managematerial.dto.CustomerDto;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
 import vn.com.devmaster.service.managematerial.service.UserService;
+import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
 
+import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class LoginController {
@@ -19,12 +24,14 @@ public class LoginController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ShoppingCartImpl shoppingCart;
 
     @Autowired
     CustomerService customerService;
 
     @GetMapping("/login")
-    public String viewLogin() {
+    public String viewLogin(Principal principal) {
         return "/layout/login";
     }
 
@@ -37,8 +44,8 @@ public class LoginController {
 
     @PostMapping("/do-register")
     public String processRegister(@Valid @ModelAttribute("customerDto") CustomerDto customerDto,
-                                   BindingResult result,
-                                   Model model) {
+                                  BindingResult result,
+                                  Model model) {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("customerDto", customerDto);
@@ -67,23 +74,32 @@ public class LoginController {
         return "/layout/register";
     }
 
-
+    @Transactional
     @PostMapping("/do-login")
-    public String login(Model model, @RequestParam("username") String username, @RequestParam("password") String password) {
+    public String login(Model model, @RequestParam("username") String username,
+                        @RequestParam("password") String password,
+                        HttpSession session,Principal principal) {
         try {
             Customer customer = userService.findByName(username);
             if (!customer.getPassword().equals(password)) {
                 model.addAttribute("message", "Sai tên dăng nha hoặc mật khẩu");
 
             } else {
-                return "redirect:/shopping-cart/check-out";
+
+                model.addAttribute("customer", customer);
+                model.addAttribute("cartItem", shoppingCart.getAllCartItem());
+                model.addAttribute("Total", shoppingCart.totalAmount());
+                model.addAttribute("cartCount", shoppingCart.getCount());
+                session.setAttribute("customerName",customer);
+//                session.setAttribute("username",userService.findByName(username));
+                return "features/checkout";
             }
 
         } catch (Exception e) {
             model.addAttribute("message", "username invalid!");
         }
 
-        return "layout/login";
+        return "/layout/login";
     }
 
 }

@@ -16,6 +16,7 @@
 <body>
 
 <div class="container"  layout:fragment="content">
+    <a class="btn btn-primary btn-sm" th:href="@{/login}">check out</a>
     <h2>List Cart</h2>
     <div class="rows">
         <div class="col-sm-9">
@@ -33,8 +34,8 @@
                 <tbody>
                 <div><i class="fa-solid fa-cart-shopping"> <span th:text="${cartCount}"></span></i></div>
                 <div th:each="cart:${cartItem}" >
-
-                    <form     th:action="@{/shopping-cart/update}" method="post"  enctype="multipart/form-data">
+<!--                    th:action="@{/shopping-cart/update}"-->
+                    <form     method="post"  enctype="multipart/form-data">
                         <input type="hidden" name="id" th:value="${cart.product.id}" />
                         <tr>
                             <td th:text="${cart.product.id}"></td>
@@ -55,7 +56,14 @@
             <hr />
             <a class="btn btn-primary btn-sm" href="/shopping-cart/clear">Clear Cart</a>
             <a class="btn btn-primary btn-sm" th:href="@{/api/listproduct}">Add more</a>
-            <a class="btn btn-primary btn-sm" th:href="@{/login}">check out</a>
+            <span th:if="${session.customerName == null}">
+                 <a  class="btn btn-primary btn-sm" th:href="@{/login}">login</a>
+            </span>
+            <span th:if="${session.customerName != null}">
+                 <a  class="btn btn-primary btn-sm" th:href="@{/shopping-cart/check-out}">check out</a>
+            </span>
+<!--            <span th: th:if=""></span>-->
+
         </div>
     </div>
 

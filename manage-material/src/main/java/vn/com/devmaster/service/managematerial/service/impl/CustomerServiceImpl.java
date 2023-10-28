@@ -8,6 +8,8 @@ import vn.com.devmaster.service.managematerial.dto.CustomerDto;
 import vn.com.devmaster.service.managematerial.reponsitory.CustomerRepository;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
 
+import java.util.Date;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -21,6 +23,10 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setName(customerDto.getName());
         customer.setPassword(customerDto.getPassword());
         customer.setUsername(customerDto.getUsername());
+        customer.setEmail(customerDto.getEmail());
+        customer.setAddress(customerDto.getAddress());
+        customer.setPhone(customerDto.getPhone());
+        customer.setCreatedDate((new Date().toInstant()));
         return  customerRepo.save(customer);
     }
 
@@ -49,6 +55,10 @@ public class CustomerServiceImpl implements CustomerService {
         customerDto.setName(customer.getName());
         customerDto.setUsername(customer.getUsername());
         customerDto.setPassword(customer.getPassword());
+        customerDto.setAddress(customer.getAddress());
+        customerDto.setEmail(customer.getEmail());
+        customerDto.setPhone(customer.getPhone());
+        customerDto.setCreatedDate(customer.getCreatedDate());
         return customerDto;
     }
 }

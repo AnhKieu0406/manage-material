@@ -29,4 +29,12 @@ public class OrderDto {
     String phone;
     CustomerDto customer;
 
+    List<OrdersDetailDto> ordersDetailDto;
+    public static class  OrderDetailDto{
+        private String idProduct;
+        private String price;
+        private Long qty;
+    }
+
+
 }

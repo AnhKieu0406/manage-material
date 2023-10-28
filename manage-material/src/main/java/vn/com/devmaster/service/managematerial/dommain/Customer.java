@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
@@ -50,7 +51,7 @@ public class Customer {
 
 
     @OneToMany(targetEntity = Order.class,mappedBy = "customer",orphanRemoval = false,fetch = FetchType.LAZY)
-    Set<Order> orderSet;
+    List<Order> orderSet;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private ShoppingCart cart;

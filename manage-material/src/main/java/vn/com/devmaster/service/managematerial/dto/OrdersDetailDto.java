@@ -21,5 +21,5 @@ public class OrdersDetailDto  {
     Double price;
     Integer qty;
     Product product;
-    Order order;
+//    Order order;
 }

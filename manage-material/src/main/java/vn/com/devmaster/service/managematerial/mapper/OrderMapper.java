@@ -28,6 +28,7 @@ public class OrderMapper implements EntityMapper<Order, OrderDto>{
                 .nameReciver(dto.getNameReciver())
                 .address(dto.getAddress())
                 .phone(dto.getPhone())
+                .ordersDetails(orderdetailMapper.toEntity(dto.getOrdersDetailDto()))
 //               .ordersDetailDto(orderdetailMapper.toEntity(dto.getOrdersDetail()))
                 .build();
         return order;
@@ -48,6 +49,7 @@ public class OrderMapper implements EntityMapper<Order, OrderDto>{
                 .id(order.getId())
                 .idorders(order.getIdorders())
                 .customer(customerMapper.toDto(order.getCustomer()))
+                .ordersDetailDto(orderdetailMapper.toDto(order.getOrdersDetails()))
                 .ordersDate(order.getOrdersDate())
                 .totalMoney(order.getTotalMoney())
                 .notes(order.getNotes())
