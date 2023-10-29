@@ -27,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setAddress(customerDto.getAddress());
         customer.setPhone(customerDto.getPhone());
         customer.setCreatedDate((new Date().toInstant()));
+        customer.setIsactive((byte)1);
         return  customerRepo.save(customer);
     }
 
@@ -59,6 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerDto.setEmail(customer.getEmail());
         customerDto.setPhone(customer.getPhone());
         customerDto.setCreatedDate(customer.getCreatedDate());
+
         return customerDto;
     }
 }

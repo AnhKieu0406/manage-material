@@ -35,7 +35,7 @@
                 <div><i class="fa-solid fa-cart-shopping"> <span th:text="${cartCount}"></span></i></div>
                 <div th:each="cart:${cartItem}" >
 <!--                    th:action="@{/shopping-cart/update}"-->
-                    <form     method="post"  enctype="multipart/form-data">
+                    <form   th:action="@{/shopping-cart/update}"   method="post"  enctype="multipart/form-data">
                         <input type="hidden" name="id" th:value="${cart.product.id}" />
                         <tr>
                             <td th:text="${cart.product.id}"></td>
@@ -56,6 +56,7 @@
             <hr />
             <a class="btn btn-primary btn-sm" href="/shopping-cart/clear">Clear Cart</a>
             <a class="btn btn-primary btn-sm" th:href="@{/api/listproduct}">Add more</a>
+
             <span th:if="${session.customerName == null}">
                  <a  class="btn btn-primary btn-sm" th:href="@{/login}">login</a>
             </span>

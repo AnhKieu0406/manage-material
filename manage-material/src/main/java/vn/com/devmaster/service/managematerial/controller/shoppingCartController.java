@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import vn.com.devmaster.service.managematerial.dommain.CartItem;
+import vn.com.devmaster.service.managematerial.dommain.*;
 
 
-import vn.com.devmaster.service.managematerial.dommain.Customer;
-import vn.com.devmaster.service.managematerial.dommain.Product;
-
-import vn.com.devmaster.service.managematerial.dommain.ShoppingCart;
 import vn.com.devmaster.service.managematerial.dto.CustomerDto;
 import vn.com.devmaster.service.managematerial.dto.OrderDto;
 import vn.com.devmaster.service.managematerial.reponsitory.CustomerRepository;
@@ -23,6 +19,7 @@ import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -83,16 +80,32 @@ public class shoppingCartController {
 
     @GetMapping("/check-out")
     public String checkout(Model model, HttpSession session){
-        OrderDto orderDto = new OrderDto();
-         model.addAttribute("order", new OrderDto());
+        OrderDto bills = new OrderDto();
          Customer logInfor= (Customer) session.getAttribute("customerName");
-        model.addAttribute("customer", logInfor);
-        model.addAttribute("cartItem", shoppingCart.getAllCartItem());
-        model.addAttribute("Total", shoppingCart.totalAmount());
-        model.addAttribute("cartCount", shoppingCart.getCount());
-
-
+         if(logInfor!= null) {
+             model.addAttribute("customer", logInfor);
+             model.addAttribute("cartItem", shoppingCart.getAllCartItem());
+             model.addAttribute("Total", shoppingCart.totalAmount());
+             model.addAttribute("cartCount", shoppingCart.getCount());
+             bills.setIdorders(logInfor.getName() + logInfor.getPhone());
+             bills.setAddress(logInfor.getAddress());
+             bills.setTotalMoney(shoppingCart.totalAmount());
+         }
+         model.addAttribute("bills",bills);
         return "/features/checkout";
+    }
+
+
+    @GetMapping ("/add-order")
+        public  String createOrder(Model model,
+                                   HttpSession session){
+        Customer logInfor= (Customer) session.getAttribute("customerName");
+        List<Order> orderList = logInfor.getOrderSet();
+
+        model.addAttribute("orders", orderList);
+        model.addAttribute("title", "Order");
+        model.addAttribute("page", "Order");
+        return "features/order-detail";
     }
 
 }

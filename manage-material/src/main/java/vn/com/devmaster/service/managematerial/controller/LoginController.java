@@ -92,8 +92,7 @@ public class LoginController {
                 model.addAttribute("cartCount", shoppingCart.getCount());
                 session.setAttribute("customerName",customer);
 
-//                session.setAttribute("username",userService.findByName(username));
-                return "features/checkout";
+                return "features/cart-item";
             }
 
         } catch (Exception e) {
