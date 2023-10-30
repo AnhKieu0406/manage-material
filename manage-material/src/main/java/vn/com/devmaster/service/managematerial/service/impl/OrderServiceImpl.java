@@ -10,10 +10,9 @@ import vn.com.devmaster.service.managematerial.reponsitory.OrderRepository;
 import vn.com.devmaster.service.managematerial.reponsitory.OrdersDetailRepository;
 import vn.com.devmaster.service.managematerial.service.OrderService;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -25,16 +24,35 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    CustomerServiceImpl customerService;
+
+    @Autowired
+    ShoppingCartImpl shoppingCart1;
+
     @Override
     @Transactional
-    public Order save(ShoppingCart shoppingCart) {
+    public Order save(List<CartItem> shoppingCart, HttpSession session) {
         Order order = new Order();
-        order.setCustomer(shoppingCart.getCustomer());
+
+        Customer logInfo = (Customer) session.getAttribute("customerName");
+        Customer customer = customerService.findByUsername(logInfo.getUsername());
+//        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+       cart = customer.getCartItems();
+        String idOrder = logInfo.getUsername();
+        idOrder = UUID.randomUUID().toString().substring(0, 10);
+        order.setIdorders(idOrder);
+        order.setCustomer(customer);
         order.setOrdersDate(new Date().toInstant());
         order.setIdorders(order.getIdorders());
-        order.setTotalMoney(shoppingCart.getTotalPrice());
+        order.setAddress(customer.getAddress());
+        order.setPhone(customer.getPhone());
+        order.setTotalMoney(shoppingCart1.totalAmount());
+        order.setNameReciver(customer.getName());
+        order.setNotes("CÓ");
         List<OrdersDetail> ordersDetailList = new ArrayList<>();
-        for (CartItem item : shoppingCart.getCartItems()) {
+        for (CartItem item : cart) {
             OrdersDetail ordersDetail = new OrdersDetail();
             ordersDetail.setOrder(order);
             ordersDetail.setProduct(item.getProduct());
@@ -42,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
             ordersDetailList.add(ordersDetail);
         }
         order.setOrdersDetails(ordersDetailList);
-
+        orderRepo.save(order);
         return order;
     }
 

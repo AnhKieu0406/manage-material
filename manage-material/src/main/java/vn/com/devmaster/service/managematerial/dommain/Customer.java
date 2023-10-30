@@ -53,8 +53,11 @@ public class Customer {
     @OneToMany(targetEntity = Order.class,mappedBy = "customer",orphanRemoval = false,fetch = FetchType.LAZY)
     List<Order> orderSet;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private ShoppingCart cart;
+//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+//    private ShoppingCart cart;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
 
 
 

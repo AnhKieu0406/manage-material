@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import vn.com.devmaster.service.managematerial.dommain.CartItem;
 import vn.com.devmaster.service.managematerial.service.ShoppingCartService;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ public class ShoppingCartImpl implements ShoppingCartService {
     Map<Integer, CartItem> maps = new HashMap<>();
 
     @Override
+    @Transactional
     public void addCartItem(CartItem item){
         CartItem cartItem = maps.get(item.getProduct().getId());
         if (cartItem ==null){

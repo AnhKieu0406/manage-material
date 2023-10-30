@@ -14,6 +14,7 @@ import java.time.Instant;
 @Data
 
 public class CustomerDto {
+    private Integer id;
 
     @Size(min = 3, max = 15, message = "Last name should have 3-15 characters")
     private String name;
@@ -21,7 +22,6 @@ public class CustomerDto {
     private String username;
     @Size(min = 3, max = 15, message = "Password contains 3-10 characters")
     private String password;
-
     private String confirmPassword;
     private String address;
     private String email;
