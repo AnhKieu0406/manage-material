@@ -9,11 +9,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 @Service
+@Transactional
 public class ShoppingCartImpl implements ShoppingCartService {
     Map<Integer, CartItem> maps = new HashMap<>();
 
     @Override
-    @Transactional
     public void addCartItem(CartItem item){
         CartItem cartItem = maps.get(item.getProduct().getId());
         if (cartItem ==null){

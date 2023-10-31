@@ -1,14 +1,11 @@
 package vn.com.devmaster.service.managematerial.dommain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "cartItem", schema = "manage-material")
 public class CartItem {
@@ -21,9 +18,11 @@ public class CartItem {
     @JoinColumn(name = "customer_id", referencedColumnName = "ID")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "id_product", referencedColumnName = "id")
     private Product product;
+
+
     private String name;
     private double price;
     private int qty =1;

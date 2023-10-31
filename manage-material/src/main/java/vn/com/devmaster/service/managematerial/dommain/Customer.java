@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
-@EqualsAndHashCode
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
 @Entity
-@Table(name = "customer", schema = "manage-material")
+@Table(name = "customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,14 +50,12 @@ public class Customer {
     private Byte isactive;
 
 
-    @OneToMany(targetEntity = Order.class,mappedBy = "customer",orphanRemoval = false,fetch = FetchType.LAZY)
-    List<Order> orderSet;
-
-//    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-//    private ShoppingCart cart;
-
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
+
+    @OneToMany(mappedBy = "idcustomer", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Order> orders;
 
 
 

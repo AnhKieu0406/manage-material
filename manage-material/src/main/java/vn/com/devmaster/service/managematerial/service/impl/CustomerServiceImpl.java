@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import vn.com.devmaster.service.managematerial.dommain.Customer;
 import vn.com.devmaster.service.managematerial.dto.CustomerDto;
+import vn.com.devmaster.service.managematerial.reponsitory.CustomerDao;
 import vn.com.devmaster.service.managematerial.reponsitory.CustomerRepository;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
 
@@ -16,6 +17,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerRepository customerRepo;
 
+    @Autowired
+    CustomerDao customerDao;
 
     @Override
     public Customer save(CustomerDto customerDto) {
@@ -29,7 +32,9 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhone(customerDto.getPhone());
         customer.setCreatedDate((new Date().toInstant()));
         customer.setIsactive((byte)1);
-        return  customerRepo.save(customer);
+
+        customerRepo.save(customer);
+        return customerDao.save(customer);
     }
 
     @Override

@@ -55,11 +55,10 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IDCUSTOMER")
-    @Fetch(FetchMode.JOIN)
-    private Customer customer;
+    private Customer idcustomer;
 
 
-    @OneToMany(mappedBy = "order", orphanRemoval = true)
-    private List<OrdersDetail> ordersDetails = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "idord")
+    private List<OrdersDetail> ordersDetails;
 
 }

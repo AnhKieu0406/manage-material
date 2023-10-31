@@ -1,5 +1,6 @@
 package vn.com.devmaster.service.managematerial.service.impl;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.com.devmaster.service.managematerial.dommain.*;
@@ -34,16 +35,15 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order save(List<CartItem> shoppingCart, HttpSession session) {
         Order order = new Order();
-
         Customer logInfo = (Customer) session.getAttribute("customerName");
         Customer customer = customerService.findByUsername(logInfo.getUsername());
-//        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-       cart = customer.getCartItems();
-        String idOrder = logInfo.getUsername();
-        idOrder = UUID.randomUUID().toString().substring(0, 10);
+        List<CartItem> cart = customer.getCartItems();
+
+
+//        String idOrder = logInfo.getUsername();
+        String idOrder = UUID.randomUUID().toString().substring(0, 10);
         order.setIdorders(idOrder);
-        order.setCustomer(customer);
+        order.setIdcustomer(customer);
         order.setOrdersDate(new Date().toInstant());
         order.setIdorders(order.getIdorders());
         order.setAddress(customer.getAddress());
@@ -54,20 +54,21 @@ public class OrderServiceImpl implements OrderService {
         List<OrdersDetail> ordersDetailList = new ArrayList<>();
         for (CartItem item : cart) {
             OrdersDetail ordersDetail = new OrdersDetail();
-            ordersDetail.setOrder(order);
-            ordersDetail.setProduct(item.getProduct());
+            ordersDetail.setIdord(order);
+            ordersDetail.setIdproduct(item.getProduct());
+            ordersDetail.setQty(cart.size());
             detailRepository.save(ordersDetail);
             ordersDetailList.add(ordersDetail);
         }
         order.setOrdersDetails(ordersDetailList);
-        orderRepo.save(order);
-        return order;
+
+        return  orderRepo.save(order);
     }
 
     @Override
     public List<Order> findAll(String username) {
         Customer customer = customerRepository.findByUsername(username);
-        List<Order> orders = customer.getOrderSet();
+        List<Order> orders = customer.getOrders();
         return orders;
     }
 

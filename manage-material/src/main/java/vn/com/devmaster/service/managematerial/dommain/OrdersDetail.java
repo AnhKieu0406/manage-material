@@ -7,8 +7,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Builder
-@Getter
-@Setter
 @Entity
 @Table(name = "orders_details", schema = "manage-material")
 public class OrdersDetail {
@@ -23,13 +21,14 @@ public class OrdersDetail {
     @Column(name = "QTY")
     private Integer qty;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDORD", nullable = false)
-    private Order order;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "IDORD")
+    private Order idord;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDPRODUCT", nullable = false)
-    private Product product;
+    @JoinColumn(name = "IDPRODUCT")
+    private Product idproduct;
 
 
 }

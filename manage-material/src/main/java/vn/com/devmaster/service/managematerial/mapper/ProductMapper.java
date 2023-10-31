@@ -14,9 +14,6 @@ public class ProductMapper implements EntityMapper<Product, ProductDto>{
    @Autowired
    CategoryMapper categoryMapper;
 
-   @Autowired
-   OrderdetailMapper orderdetailMapper;
-
     @Override
     public Product toEntity(ProductDto dto) {
         Product product = Product.builder()

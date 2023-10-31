@@ -10,10 +10,7 @@ import vn.com.devmaster.service.managematerial.dommain.*;
 
 import vn.com.devmaster.service.managematerial.dto.CustomerDto;
 import vn.com.devmaster.service.managematerial.dto.OrderDto;
-import vn.com.devmaster.service.managematerial.reponsitory.CartItemRepository;
-import vn.com.devmaster.service.managematerial.reponsitory.CustomerRepository;
-import vn.com.devmaster.service.managematerial.reponsitory.OrderRepository;
-import vn.com.devmaster.service.managematerial.reponsitory.OrdersDetailRepository;
+import vn.com.devmaster.service.managematerial.reponsitory.*;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
 import vn.com.devmaster.service.managematerial.service.OrderService;
 import vn.com.devmaster.service.managematerial.service.ProductService;
@@ -49,9 +46,13 @@ public class shoppingCartController {
 
     @Autowired
     CartItemRepository cartItemRepository;
+    @Autowired
+    private CustomerDao customerDao;
 
     @GetMapping("/view-cart")
-    public String viewCart(Model model) {
+    public String viewCart(Model model, HttpSession session) {
+        session.setAttribute("saveCart", shoppingCart.getAllCartItem());
+        session.getAttribute("saveCart");
         model.addAttribute("cartItem", shoppingCart.getAllCartItem());
         model.addAttribute("Total", shoppingCart.totalAmount());
         model.addAttribute("cartCount", shoppingCart.getCount());
@@ -59,12 +60,8 @@ public class shoppingCartController {
     }
 
     @GetMapping("/add-cart/{id}")
-    public String addCart(@PathVariable Integer id, Model model,HttpSession session) {
+    public String addCart(@PathVariable("id") Integer id, Model model, HttpServletRequest request) {
         Product product = productService.findById(id);
-        Customer logInfo = (Customer) session.getAttribute("customerName");
-        Customer customer = customerService.findByUsername(logInfo.getUsername());
-
-        List<CartItem> list = customer.getCartItems();
         if (product != null) {
             CartItem item = new CartItem();
             item.setId(item.getId());
@@ -73,11 +70,10 @@ public class shoppingCartController {
             item.setPrice(product.getPrice());
             item.setQty(1);
             shoppingCart.addCartItem(item);
-            list.add(item);
-            session.setAttribute("myCart",item);
+//            cartItemRepository.save(item);
         }
 
-            session.setAttribute("cart",list);
+
         model.addAttribute("cartCount", shoppingCart.getCount());
         return "redirect:/shopping-cart/view-cart";
 
@@ -97,26 +93,22 @@ public class shoppingCartController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("id") Integer id, @RequestParam Integer qty) {
+    public String update(@RequestParam("id") Integer id, @RequestParam("qty") Integer qty) {
         shoppingCart.update(id, qty);
         return "redirect:/shopping-cart/view-cart";
     }
 
-    @GetMapping("/check-out")
-    public String checkout(Model model, HttpSession session,HttpServletRequest request) {
+    @GetMapping("/check-out/{username}")
+    public String checkout(Model model, HttpSession session, @PathVariable(name = "username") String username) {
         Order bills = new Order();
-        Customer logInfor = (Customer) session.getAttribute("customerName");
-        Customer customer = customerService.findByUsername(((Customer) session.getAttribute("customerName")).getUsername());
-//        CartItem cart = (CartItem) session.getAttribute("myCart");
-
-        List<CartItem> cart = customerService.findByUsername(logInfor.getUsername()).getCartItems();
-        List<Order> orders = new ArrayList<>();
+        Customer customer = customerService.findByUsername(username);
+        List<CartItem> cart = customer.getCartItems();
         model.addAttribute("customer", customer);
         model.addAttribute("cartItem", shoppingCart.getAllCartItem());
         model.addAttribute("Total", shoppingCart.totalAmount());
         model.addAttribute("cartCount", shoppingCart.getCount());
 
-        orderService.save(cart,session);
+        orderService.save(cart, session);
         model.addAttribute("bills", bills);
         return "/features/checkout";
     }
