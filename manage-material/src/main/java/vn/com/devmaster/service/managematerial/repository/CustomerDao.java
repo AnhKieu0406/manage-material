@@ -1,7 +1,6 @@
-package vn.com.devmaster.service.managematerial.reponsitory;
+package vn.com.devmaster.service.managematerial.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 import vn.com.devmaster.service.managematerial.dommain.Customer;
 
 

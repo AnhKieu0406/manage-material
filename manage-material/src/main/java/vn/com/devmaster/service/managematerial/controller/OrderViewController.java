@@ -1,14 +1,9 @@
 package vn.com.devmaster.service.managematerial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import vn.com.devmaster.service.managematerial.dommain.CustomUserDetail;
-import vn.com.devmaster.service.managematerial.dto.OrderDto;
-import vn.com.devmaster.service.managematerial.reponsitory.OrderRepository;
+import vn.com.devmaster.service.managematerial.repository.OrderRepository;
 import vn.com.devmaster.service.managematerial.service.OrderService;
 
 @Controller

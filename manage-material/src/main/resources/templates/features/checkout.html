@@ -317,8 +317,8 @@
                         </div>
                         <div class="order-products">
                             <div class="order-col" th:each="cart:${cartItem}">
-                                <div th:text="${cart.product.name}"> x <span th:text="${cart.qty}"></span></div>
-                                <div th:text="${#numbers.formatDecimal(cart.price*cart.qty,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
+                                    <div th:text="${cart.product.name}"> x <span th:text="${cart.quantity}"></span></div>
+                                <div th:text="${#numbers.formatDecimal(cart.price*cart.quantity,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
                                     $980.00
                                 </div>
                             </div>
@@ -334,41 +334,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="payment-method">
-                        <div class="input-radio">
+                    <div class="payment-method" >
+                        <div class="input-radio" th:each="pay:${payment}">
                             <input type="radio" name="payment" id="payment-1">
-                            <label for="payment-1">
+                            <label for="payment-1" th:text="${pay.name}">
                                 <span></span>
                                 Direct Bank Transfer
                             </label>
                             <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.</p>
+                                <p th:text="${pay.notes}"></p>
                             </div>
                         </div>
-                        <div class="input-radio">
-                            <input type="radio" name="payment" id="payment-2">
-                            <label for="payment-2">
-                                <span></span>
-                                Cheque Payment
-                            </label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                        <div class="input-radio">
-                            <input type="radio" name="payment" id="payment-3">
-                            <label for="payment-3">
-                                <span></span>
-                                Paypal System
-                            </label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-                        </div>
-                    </div>
+<!--                        <div class="input-radio">-->
+<!--                            <input type="radio" name="payment" id="payment-2">-->
+<!--                            <label for="payment-2">-->
+<!--                                <span></span>-->
+<!--                                Cheque Payment-->
+<!--                            </label>-->
+<!--                            <div class="caption">-->
+<!--                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor-->
+<!--                                    incididunt ut labore et dolore magna aliqua.</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="input-radio">-->
+<!--                            <input type="radio" name="payment" id="payment-3">-->
+<!--                            <label for="payment-3">-->
+<!--                                <span></span>-->
+<!--                                Paypal System-->
+<!--                            </label>-->
+<!--                            <div class="caption">-->
+<!--                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor-->
+<!--                                    incididunt ut labore et dolore magna aliqua.</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="input-checkbox">
                         <input type="checkbox" id="terms">
                         <label for="terms">

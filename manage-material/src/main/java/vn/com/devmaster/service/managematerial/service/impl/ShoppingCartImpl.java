@@ -1,59 +1,58 @@
 package vn.com.devmaster.service.managematerial.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.com.devmaster.service.managematerial.dommain.CartItem;
+import vn.com.devmaster.service.managematerial.repository.ProductRepository;
 import vn.com.devmaster.service.managematerial.service.ShoppingCartService;
 
-import javax.transaction.Transactional;
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+
 @Service
-@Transactional
 public class ShoppingCartImpl implements ShoppingCartService {
-    Map<Integer, CartItem> maps = new HashMap<>();
-
+    @Autowired
+    ProductRepository productRespon;
+    @Autowired
+    HttpSession session;
+    Map<Integer, CartItem> maps= new HashMap<>();
     @Override
-    public void addCartItem(CartItem item){
-        CartItem cartItem = maps.get(item.getProduct().getId());
-        if (cartItem ==null){
-            maps.put(item.getProduct().getId(), item);
-
+    public void add(CartItem item){
+        CartItem cartItem = maps.get(item.getId());
+        if(cartItem == null){
+            maps.put(item.getId(),item);
         }else {
-            cartItem.setQty(item.getQty()+1);
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
         }
     }
     @Override
-    public void remove(int id){
+    public void remove(Integer id){
         maps.remove(id);
     }
-
     @Override
-    public  CartItem  update(int proId,int qty){
-        CartItem cartItem = maps.get(proId);
-        cartItem.setQty(qty);
+    public CartItem update(Integer id, int qty){
+        CartItem  cartItem= maps.get(id);
+        cartItem.setQuantity(qty);
         return cartItem;
     }
-
     @Override
     public void clear(){
         maps.clear();
     }
     @Override
-    public Collection<CartItem> getAllCartItem(){
+    public Collection<CartItem> getAllItem(){
         return maps.values();
     }
-
     @Override
     public int getCount(){
         return maps.values().size();
     }
-
     @Override
-    public  double totalAmount(){
-        return maps.values().stream()
-                .mapToDouble(item-> item.getPrice()* item.getQty())
-                .sum();
+    public double getAmount(){
+        return maps.values().stream().mapToDouble(item -> (item.getQuantity() * item.getPrice())).sum();
     }
 
 }

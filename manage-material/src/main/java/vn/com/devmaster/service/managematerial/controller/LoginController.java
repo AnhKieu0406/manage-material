@@ -74,7 +74,6 @@ public class LoginController {
         return "/layout/register";
     }
 
-    @Transactional
     @PostMapping("/do-login")
     public String login(Model model, @RequestParam("username") String username,
                         @RequestParam("password") String password,
@@ -87,11 +86,10 @@ public class LoginController {
             } else {
 
                 model.addAttribute("customer", customer);
-                model.addAttribute("cartItem", shoppingCart.getAllCartItem());
-                model.addAttribute("Total", shoppingCart.totalAmount());
+                model.addAttribute("cartItem", shoppingCart.getAllItem());
+                model.addAttribute("Total", shoppingCart.getAmount());
                 model.addAttribute("cartCount", shoppingCart.getCount());
                 session.setAttribute("customerName",customer);
-                session.getAttribute("saveCart");
 
                 return "features/cart-item";
             }

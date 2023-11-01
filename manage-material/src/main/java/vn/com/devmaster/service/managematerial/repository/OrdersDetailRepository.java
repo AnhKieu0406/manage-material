@@ -1,4 +1,4 @@
-package vn.com.devmaster.service.managematerial.reponsitory;
+package vn.com.devmaster.service.managematerial.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface OrdersDetailRepository extends JpaRepository<OrdersDetail, Integer> {
-    @Query("select o from Order o where o.idcustomer.id = ?1")
+    @Query("select o from Order o where o.idCustomer.id = ?1")
     List<Order> findAllByCustomerId(Long id);
 }

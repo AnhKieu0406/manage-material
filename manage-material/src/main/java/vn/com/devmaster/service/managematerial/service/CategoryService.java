@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.com.devmaster.service.managematerial.dommain.Category;
 import vn.com.devmaster.service.managematerial.mapper.CategoryMapper;
-import vn.com.devmaster.service.managematerial.reponsitory.CategoryRepository;
+import vn.com.devmaster.service.managematerial.repository.CategoryRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

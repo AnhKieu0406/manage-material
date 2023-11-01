@@ -1,32 +1,21 @@
 package vn.com.devmaster.service.managematerial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.com.devmaster.service.managematerial.dommain.*;
 import vn.com.devmaster.service.managematerial.dto.CategoryDto;
-import vn.com.devmaster.service.managematerial.dto.OrdersDetailDto;
 import vn.com.devmaster.service.managematerial.dto.ProductDto;
 import vn.com.devmaster.service.managematerial.projection.ProductByClassId;
-import vn.com.devmaster.service.managematerial.projection.ProductImageById;
-import vn.com.devmaster.service.managematerial.reponsitory.ProductRepository;
+import vn.com.devmaster.service.managematerial.repository.ProductRepository;
 import vn.com.devmaster.service.managematerial.service.CategoryService;
 import vn.com.devmaster.service.managematerial.service.ProductService;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller

@@ -26,7 +26,7 @@ public class OrdersDetail {
     private Order idord;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "IDPRODUCT")
     private Product idproduct;
 

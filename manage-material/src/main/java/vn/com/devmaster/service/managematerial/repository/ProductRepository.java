@@ -1,13 +1,10 @@
-package vn.com.devmaster.service.managematerial.reponsitory;
+package vn.com.devmaster.service.managematerial.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import vn.com.devmaster.service.managematerial.dommain.Product;
-import vn.com.devmaster.service.managematerial.dto.ProductDto;
 import vn.com.devmaster.service.managematerial.projection.ProductByClassId;
-import vn.com.devmaster.service.managematerial.projection.ProductCategoryName;
 import vn.com.devmaster.service.managematerial.projection.ProductImageById;
 import vn.com.devmaster.service.managematerial.untils.Sql;
 

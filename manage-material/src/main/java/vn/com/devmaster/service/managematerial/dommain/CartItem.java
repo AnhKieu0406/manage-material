@@ -1,29 +1,55 @@
 package vn.com.devmaster.service.managematerial.dommain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "cartItem", schema = "manage-material")
+@Table(name = "cart_item")
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "customer_id", referencedColumnName = "ID")
+    @Column(name = "name", nullable = false, length = 250)
+    private String name;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
+
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
+    @Column(name = "image", length = 250)
+    private String image;
+
+    @Column(name = "username", length = 250)
+    private String username;
+
+    @ManyToOne( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_customer", referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToOne( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product", referencedColumnName = "id")
     private Product product;
 
 
-    private String name;
-    private double price;
-    private int qty =1;
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", image='" + image + '\'' +
+                ", username='" + username + '\'' +
+                ", customer=" + customer.getId() +
+                ", product=" + product.getId() +
+                '}';
+    }
 }

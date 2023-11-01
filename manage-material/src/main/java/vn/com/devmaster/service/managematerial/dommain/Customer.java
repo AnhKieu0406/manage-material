@@ -7,12 +7,14 @@ import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
 @Entity
+
 @Table(name = "customer")
 public class Customer {
     @Id
@@ -20,14 +22,15 @@ public class Customer {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @Size(min = 5, max = 20,message = "Name should have 5- 20 characters")
+    @Size(max = 250)
     @Column(name = "NAME", length = 250)
     private String name;
 
-    @Size(min = 5, max = 20,message = "Username should have 5- 20 characters")
-    @Column(name = "USERNAME", length = 20)
+    @Size(max = 50)
+    @Column(name = "USERNAME", length = 50)
     private String username;
 
+    @Size(max = 50)
     @Column(name = "PASSWORD", length = 50)
     private String password;
 
@@ -49,14 +52,28 @@ public class Customer {
     @Column(name = "ISACTIVE")
     private Byte isactive;
 
-
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<CartItem> cartItems;
+    private Set<CartItem> cartItems;
 
-    @OneToMany(mappedBy = "idcustomer", cascade = CascadeType.ALL)
-    @ToString.Exclude
+    @OneToMany(mappedBy = "idCustomer", cascade = CascadeType.ALL)
     private List<Order> orders;
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", createdDate=" + createdDate +
+                ", isactive=" + isactive +
+                ", cartItems=" + cartItems.size() +
+                ", orders=" + orders +
+                '}';
+    }
 
 
 }

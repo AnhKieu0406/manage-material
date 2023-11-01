@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import vn.com.devmaster.service.managematerial.dommain.Product;
 import vn.com.devmaster.service.managematerial.dto.ProductDto;
 import vn.com.devmaster.service.managematerial.mapper.ProductMapper;
-import vn.com.devmaster.service.managematerial.reponsitory.ProductRepository;
+import vn.com.devmaster.service.managematerial.repository.ProductRepository;
 
 import java.util.List;
 

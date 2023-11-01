@@ -53,12 +53,12 @@ public class Order {
     @Column(name = "PHONE", length = 50)
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "IDCUSTOMER")
-    private Customer idcustomer;
+    private Customer idCustomer;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "idord")
+    @OneToMany(cascade = CascadeType.DETACH,mappedBy = "idord")
     private List<OrdersDetail> ordersDetails;
 
 }

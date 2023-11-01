@@ -13,7 +13,6 @@ import java.io.Serializable;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class ProductImageDto  {
     Integer id;
     @Size(max = 250)

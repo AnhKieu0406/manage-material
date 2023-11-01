@@ -2,11 +2,10 @@ package vn.com.devmaster.service.managematerial.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 import vn.com.devmaster.service.managematerial.dommain.Customer;
 import vn.com.devmaster.service.managematerial.dto.CustomerDto;
-import vn.com.devmaster.service.managematerial.reponsitory.CustomerDao;
-import vn.com.devmaster.service.managematerial.reponsitory.CustomerRepository;
+import vn.com.devmaster.service.managematerial.repository.CustomerDao;
+import vn.com.devmaster.service.managematerial.repository.CustomerRepository;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
 
 import java.util.Date;

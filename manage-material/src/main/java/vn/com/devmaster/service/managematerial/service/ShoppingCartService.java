@@ -2,14 +2,21 @@ package vn.com.devmaster.service.managematerial.service;
 
 import vn.com.devmaster.service.managematerial.dommain.CartItem;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
-
+@Transactional
 public interface ShoppingCartService {
-     void addCartItem(CartItem item);
-     void remove(int id);
-      CartItem  update(int proId,int qty);
-     void clear();
-     Collection<CartItem> getAllCartItem();
-     int getCount();
-      double totalAmount();
+    void add(CartItem item);
+
+    void remove(Integer id);
+
+    CartItem update(Integer id, int qty);
+
+    void clear();
+
+    Collection<CartItem> getAllItem();
+
+    int getCount();
+
+    double getAmount();
 }

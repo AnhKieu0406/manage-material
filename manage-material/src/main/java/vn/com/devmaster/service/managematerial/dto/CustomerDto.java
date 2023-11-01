@@ -11,9 +11,10 @@ import java.time.Instant;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 
-public class CustomerDto {
+public class CustomerDto  implements Serializable{
     private Integer id;
 
     @Size(min = 3, max = 15, message = "Last name should have 3-15 characters")
