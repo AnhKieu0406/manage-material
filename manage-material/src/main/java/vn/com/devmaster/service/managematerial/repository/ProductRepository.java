@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import vn.com.devmaster.service.managematerial.dommain.Product;
 import vn.com.devmaster.service.managematerial.projection.ProductByClassId;
+import vn.com.devmaster.service.managematerial.projection.ProductCategoryName;
 import vn.com.devmaster.service.managematerial.projection.ProductImageById;
 import vn.com.devmaster.service.managematerial.untils.Sql;
 
@@ -24,7 +25,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 //    @Query(value = PRODUCT_CATEGORY_NAME ,nativeQuery = true)
 //    List<ProductCategoryName> getProductCategory(@Param("name") String name);
 
-
     @Query(value = PRODUCT_CATEGORY_ID, nativeQuery = true)
     List<ProductByClassId> findAllByCategory_Id(Integer id);
+
+    @Query(value = PRODUCT_CATEGORY_NAME,nativeQuery = true)
+    List<ProductCategoryName> findProductCategory();
 }

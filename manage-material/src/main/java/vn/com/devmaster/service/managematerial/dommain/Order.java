@@ -61,4 +61,7 @@ public class Order {
     @OneToMany(cascade = CascadeType.DETACH,mappedBy = "idord")
     private List<OrdersDetail> ordersDetails;
 
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "idord")
+    private List<OrdersPayment> ordersPayments;
 }

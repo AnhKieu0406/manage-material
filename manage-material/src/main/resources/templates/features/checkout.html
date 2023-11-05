@@ -305,14 +305,14 @@
             </div>
 
             <!-- Order Details -->
-            <form th:action="${'/add-order'}" method="post" multiple="">
+
                 <div class="col-md-5 order-details">
                     <div class="section-title text-center">
                         <h3 class="title">Your Order</h3>
                     </div>
                     <div class="order-summary">
                         <div class="order-col">
-                            <div><strong th:text="${bills.idorders}">PRODUCT</strong></div>
+                            <div><strong >PRODUCT</strong></div>
                             <div><strong>TOTAL</strong></div>
                         </div>
                         <div class="order-products">
@@ -334,51 +334,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="payment-method" >
-                        <div class="input-radio" th:each="pay:${payment}">
-                            <input type="radio" name="payment" id="payment-1">
-                            <label for="payment-1" th:text="${pay.name}">
-                                <span></span>
-                                Direct Bank Transfer
-                            </label>
-                            <div class="caption">
-                                <p th:text="${pay.notes}"></p>
-                            </div>
+                    <form  th:action="@{/order/saveOrder}" method="post">
+                        <div class="form-group">
+                            <label>Select Payment</label>
+                            <!--                            <input type="text" name="idPayment" th:fields="*{newPayment.idPayment}" th:value="${newPayment.idPayment ==1}">-->
+
+                            <select type="text" class="form-control"  name="idPayment">
+                                <option th:each="pay:${listPayment}"
+                                        th:value="${pay.id}"
+                                        th:text="${pay.name}">
+                                </option>
+                            </select>
                         </div>
-<!--                        <div class="input-radio">-->
-<!--                            <input type="radio" name="payment" id="payment-2">-->
-<!--                            <label for="payment-2">-->
-<!--                                <span></span>-->
-<!--                                Cheque Payment-->
-<!--                            </label>-->
-<!--                            <div class="caption">-->
-<!--                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor-->
-<!--                                    incididunt ut labore et dolore magna aliqua.</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="input-radio">-->
-<!--                            <input type="radio" name="payment" id="payment-3">-->
-<!--                            <label for="payment-3">-->
-<!--                                <span></span>-->
-<!--                                Paypal System-->
-<!--                            </label>-->
-<!--                            <div class="caption">-->
-<!--                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor-->
-<!--                                    incididunt ut labore et dolore magna aliqua.</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <div class="input-checkbox">
-                        <input type="checkbox" id="terms">
-                        <label for="terms">
-                            <span></span>
-                            I've read and accept the <a href="#">terms & conditions</a>
-                        </label>
-                    </div>
-                    <button type="submit"></button>
+                        <button type="submit" class="btn btn-primary m-2">Save</button>
+                    </form>
                 </div>
+
+
                 <!-- /Order Details -->
-            </form>
+
         </div>
 
         <!-- /row -->

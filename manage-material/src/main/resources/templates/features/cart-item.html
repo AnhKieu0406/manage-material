@@ -17,11 +17,10 @@
 
 <div class="container"  layout:fragment="content">
     <a class="btn btn-primary btn-sm" th:href="@{/login}">check out</a>
-    <div th:each="save: ${session.saveCart}">
-        <p class="mb-2" th:text="${save.name}"></p>
-        <p class="mb-2" th:text="${save.price}"></p>
-        <p class="mb-2" th:text="${save.quantity}"></p>
-    </div>
+    <a href="#"><i class="fa fa-phone"></i> <label
+            th:text="'Hello '+ ${session.customerName.name}"></label></a>
+    <a th:href="@{/logout}"><i class="fa fa-phone"></i>
+        <label>Log out</label></a>
     <h2>List Cart</h2>
     <div class="rows">
         <div class="col-sm-9">

@@ -6,6 +6,7 @@ import vn.com.devmaster.service.managematerial.dommain.*;
 import vn.com.devmaster.service.managematerial.repository.CustomerRepository;
 import vn.com.devmaster.service.managematerial.repository.OrderRepository;
 import vn.com.devmaster.service.managematerial.repository.OrdersDetailRepository;
+import vn.com.devmaster.service.managematerial.repository.OrdersPaymentRepository;
 import vn.com.devmaster.service.managematerial.service.OrderService;
 
 import javax.servlet.http.HttpSession;
@@ -28,38 +29,39 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ShoppingCartImpl shoppingCart1;
 
+    @Autowired
+    OrdersPaymentRepository ordersPaymentsRepo;
+
+    @Autowired
+    HttpSession session;
+
     @Override
     @Transactional
-    public Order save(List<CartItem> shoppingCart, HttpSession session) {
+    public Order save(Collection<CartItem> shoppingCart) {
         Order order = new Order();
         Customer logInfo = (Customer) session.getAttribute("customerName");
         Customer customer = customerService.findByUsername(logInfo.getUsername());
-//        List<CartItem> cart = customer.getCartItems();
-
-
-//        String idOrder = logInfo.getUsername();
         String idOrder = UUID.randomUUID().toString().substring(0, 10);
         order.setIdorders(idOrder);
         order.setIdCustomer(customer);
         order.setOrdersDate(new Date().toInstant());
-        order.setIdorders(order.getIdorders());
         order.setAddress(customer.getAddress());
         order.setPhone(customer.getPhone());
         order.setTotalMoney(shoppingCart1.getAmount());
         order.setNameReciver(customer.getName());
         order.setNotes("CÓ");
-        List<OrdersDetail> ordersDetailList = new ArrayList<>();
-//        for (CartItem item : cart) {
-//            OrdersDetail ordersDetail = new OrdersDetail();
-//            ordersDetail.setIdord(order);
-//            ordersDetail.setIdproduct(item.getProduct());
-////            ordersDetail.setQty(cart.size());
-//            detailRepository.save(ordersDetail);
-//            ordersDetailList.add(ordersDetail);
-//        }
-        order.setOrdersDetails(ordersDetailList);
+        Collection<CartItem> cart = (Collection<CartItem>) session.getAttribute("cart");
+        for (CartItem item : cart) {
+            OrdersDetail ordersDetail = new OrdersDetail();
+            ordersDetail.setIdord(order);
+            ordersDetail.setIdproduct(item.getProduct());
+            ordersDetail.setQty(item.getQuantity());
+            ordersDetail.setPrice(item.getPrice()*item.getQuantity());
+            detailRepository.save(ordersDetail);
+        }
 
-        return orderRepo.save(order);
+        orderRepo.save(order);
+        return order;
     }
 
     @Override

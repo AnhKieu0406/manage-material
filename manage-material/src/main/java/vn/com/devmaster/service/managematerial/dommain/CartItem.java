@@ -30,11 +30,11 @@ public class CartItem {
     @Column(name = "username", length = 250)
     private String username;
 
-    @ManyToOne( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne( cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "id_customer", referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToOne( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToOne( cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", referencedColumnName = "id")
     private Product product;
 

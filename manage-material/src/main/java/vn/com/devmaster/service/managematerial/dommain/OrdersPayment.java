@@ -18,22 +18,25 @@ public class OrdersPayment {
     @Column(name = "ID", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IDORD")
-    private Order idord;
-
     @Column(name = "TOTAL")
     private Integer total;
 
     @Column(name = "NOTES")
-    private Integer notes;
+    private String notes;
 
     @Size(max = 50)
     @Column(name = "STATUS", length = 50)
     private String status;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "IDPAYMENT")
-    private OrdersPayment ordersPayment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IDORD")
+    private Order idord;
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+    @Column(name = "IDPAYMENT")
+    private Integer idPayment;
+
+
+
 
 }

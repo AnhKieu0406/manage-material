@@ -46,9 +46,6 @@ public class ProductController {
     @GetMapping("/category/add")
     public  String getCarAdd(Model model){
         CategoryDto categoryDto = new CategoryDto();
-
-
-
         model.addAttribute("category",categoryDto);
         return "/features/category/category_add";
     }

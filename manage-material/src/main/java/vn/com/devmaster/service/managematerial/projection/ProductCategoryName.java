@@ -1,7 +1,10 @@
 package vn.com.devmaster.service.managematerial.projection;
 
 public interface ProductCategoryName {
-    String getType();
-    String getName();
-    String getImage();
+    String getCateName();
+    String getProName();
+    String getImages();
+    Double getPrices();
+    Byte getIsActive();
+    String getNote();
 }

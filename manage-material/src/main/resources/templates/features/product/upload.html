@@ -28,7 +28,7 @@
                 <input type="hidden" name="id" th:field="*{id}">
                 <div class="form-group">
                     <label>Select Category</label>
-                    <select type="text" class="form-control" required th:field="*{idcategory}"
+                    <select type="text" class="form-control" required th:field="${productDto.idcategory}"
                             name="name" placeholder="Enter name">
                         <option th:each="category:${categories}"
                                 th:value="${category.id}"

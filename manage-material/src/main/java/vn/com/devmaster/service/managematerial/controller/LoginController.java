@@ -101,4 +101,11 @@ public class LoginController {
         return "/layout/login";
     }
 
+    @GetMapping("/logout")
+    public  String logout(HttpSession session){
+        session.removeAttribute("customerName");
+        return "layout/login";
+
+    }
+
 }

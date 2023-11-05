@@ -3,16 +3,11 @@ package vn.com.devmaster.service.managematerial.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import vn.com.devmaster.service.managematerial.dommain.CartItem;
-import vn.com.devmaster.service.managematerial.dommain.Customer;
-import vn.com.devmaster.service.managematerial.dommain.Order;
-import vn.com.devmaster.service.managematerial.dommain.OrdersDetail;
+import org.springframework.web.bind.annotation.*;
+import vn.com.devmaster.service.managematerial.dommain.*;
 import vn.com.devmaster.service.managematerial.repository.*;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
+import vn.com.devmaster.service.managematerial.service.OrderPaymentService;
 import vn.com.devmaster.service.managematerial.service.OrderService;
 import vn.com.devmaster.service.managematerial.service.ProductService;
 import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
@@ -36,7 +31,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderPaymentService orderPaySer;
 
     @Autowired
     OrdersDetailRepository detailRepository;
@@ -46,46 +41,63 @@ public class OrderController {
 
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
+    @Autowired
+    private OrdersPaymentRepository ordersPaymentRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
 
     @GetMapping("/check-out/{username}")
-    public String checkout(Model model, HttpSession session, @PathVariable(name = "username") String username) {
-        Order order = new Order();
-//        Customer customer1 = (Customer) session.getAttribute("customerName");
-        Customer customer = customerService.findByUsername(username);
-//        Set<CartItem> cart = customer.getCartItems();
+    public String checkout(Model model, HttpSession session
+            , @PathVariable(name = "username") String username
+            , @RequestParam(required = false, name = "idPayment") Integer idPayment
+    ) {
 
-        String idOrder = UUID.randomUUID().toString().substring(0, 10);
-        order.setIdorders(idOrder);
-        order.setIdCustomer(customer);
-        order.setOrdersDate(new Date().toInstant());
-        order.setIdorders(order.getIdorders());
-        order.setAddress(customer.getAddress());
-        order.setPhone(customer.getPhone());
-        order.setTotalMoney(shoppingCart.getAmount());
-        order.setNameReciver(customer.getName());
-        order.setNotes("CÓ");
-        List<OrdersDetail> ordersDetailList = new ArrayList<>();
-        Collection<CartItem> cart = (Collection<CartItem>) session.getAttribute("cart");
-        for (CartItem item : cart) {
-            OrdersDetail ordersDetail = new OrdersDetail();
-            ordersDetail.setIdord(order);
-            ordersDetail.setIdproduct(item.getProduct());
-            ordersDetail.setQty(item.getQuantity());
-            ordersDetail.setPrice(item.getPrice()*item.getQuantity());
-            detailRepository.save(ordersDetail);
-            ordersDetailList.add(ordersDetail);
+        Customer logInfo = (Customer) session.getAttribute("customerName");
+        Customer customer = customerService.findByUsername(username);
+        if (logInfo == null) {
+            return "layout/index";
         }
-        order.setOrdersDetails(ordersDetailList);
-        orderRepository.save(order);
         model.addAttribute("customer", customer);
         model.addAttribute("cartItem", shoppingCart.getAllItem());
         model.addAttribute("Total", shoppingCart.getAmount());
         model.addAttribute("cartCount", shoppingCart.getCount());
-        model.addAttribute("bills", order);
 
-        model.addAttribute("payment",paymentMethodRepository.findAllByIsActive());
+
+        model.addAttribute("newPayment", new OrdersPayment());
+        model.addAttribute("idPayment", idPayment);
+        model.addAttribute("listPayment", paymentMethodRepository.findAllByIsActive());
+
+//        PaymentMethod paymentMethod = paymentMethodRepository.findAllById(idPayment);
+//        session.setAttribute("paymentId",paymentMethod);
+//        model.addAttribute("paymentId",paymentMethod);
+
         return "/features/checkout";
+    }
+
+
+    @PostMapping("/saveOrder")
+    public String addPayment(@ModelAttribute("newPayment") OrdersPayment ordersPayment, Model model, HttpSession session
+            , @RequestParam(required = false, name = "idPayment") Integer idPayment
+    ) {
+        Collection<CartItem> cart = (Collection<CartItem>) session.getAttribute("cart");
+        PaymentMethod paymentMethod = paymentMethodRepository.findAllById(idPayment);
+        Order order = orderService.save(cart);
+        OrdersPayment payment = OrdersPayment.builder()
+                .idord(order)
+                .idPayment(idPayment)
+                .notes(paymentMethod.getNotes())
+                .build();
+
+        ordersPaymentRepository.save(payment);
+        return "redirect:/home";
+    }
+
+    @GetMapping("/list_payment")
+    public String ThanhToan(Model model) {
+        List<PaymentMethod> list = paymentMethodRepository.findAllByIsActive();
+        model.addAttribute("payment", list);
+        return "features/payment/Payment";
     }
 
 }

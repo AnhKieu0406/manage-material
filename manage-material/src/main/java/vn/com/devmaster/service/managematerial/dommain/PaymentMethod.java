@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +39,7 @@ public class PaymentMethod {
     @Column(name = "ISACTIVE")
     private Byte isactive;
 
-
+    @OneToMany( mappedBy = "idPayment")
+    private List<OrdersPayment> payment;
 
 }
