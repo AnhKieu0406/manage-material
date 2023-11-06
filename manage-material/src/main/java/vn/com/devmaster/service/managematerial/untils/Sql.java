@@ -34,4 +34,21 @@ public class Sql {
             "from product p\n" +
             "         join category c on p.IDCATEGORY = c.ID";
 
+
+    public static final String ORDER_ALL_INFOMATION = ""+
+            "select  o.ID  ordId,\n" +
+            "        c.NAME   cusName,\n" +
+            "        p.NAME  proName,\n" +
+            "        od.PRICE orDetPrice,\n" +
+            "        o.NAME_RECIVER ordName,\n" +
+            "        op.NOTES ordPayNote,\n" +
+            "        tm.NOTES    tranNote\n" +
+            "from orders o\n" +
+            "    inner join customer c on o.IDCUSTOMER = c.ID\n" +
+            "    inner join orders_details od on o.ID = od.IDORD\n" +
+            "    inner join product p on od.IDPRODUCT = p.ID\n" +
+            "    inner join orders_payment op on o.ID = op.IDORD\n" +
+            "    inner join  orders_transport ot on o.ID = ot.IDORD\n" +
+            "inner join transport_method tm on ot.IDTRANSPORT = tm.ID\n" +
+            "where c.ID = ?";
 }

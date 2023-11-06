@@ -231,23 +231,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+            <tr th:each="order: ${order}">
+                <td th:text="${order.ordId}"></td>
+                <td th:text="${order.proName}"></td>
+                <td th:text="${order.cusName}"></td>
+                <td th:text="${order.orDetPrice}"></td>
+                <td th:text="${order.ordName}"></td>
+                <td th:text="${order.ordPayNote}"></td>
+                <td th:text="${order.tranNote}"></td>
+
             </tr>
             </tbody>
         </table>

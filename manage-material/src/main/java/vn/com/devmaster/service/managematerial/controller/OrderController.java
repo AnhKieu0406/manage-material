@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import vn.com.devmaster.service.managematerial.dommain.*;
+import vn.com.devmaster.service.managematerial.projection.OrderAllInformation;
 import vn.com.devmaster.service.managematerial.repository.*;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
 import vn.com.devmaster.service.managematerial.service.OrderPaymentService;
@@ -91,6 +92,11 @@ public class OrderController {
 
         TransportMethod transportMethod = tranRepo.findAllById(idTransport);
         Order order = orderService.save(cart);
+
+        List<OrderAllInformation> list = orderRepository.findAllById(order.getIdCustomer().getId());
+
+        model.addAttribute("order",list);
+
         OrdersPayment payment = OrdersPayment.builder()
                 .idord(order)
                 .idPayment(paymentMethod)
