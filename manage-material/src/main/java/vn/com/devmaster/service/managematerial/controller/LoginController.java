@@ -91,7 +91,7 @@ public class LoginController {
                 model.addAttribute("cartCount", shoppingCart.getCount());
                 session.setAttribute("customerName",customer);
 
-                return "features/cart-item";
+                return "redirect:/home";
             }
 
         } catch (Exception e) {
@@ -104,7 +104,8 @@ public class LoginController {
     @GetMapping("/logout")
     public  String logout(HttpSession session){
         session.removeAttribute("customerName");
-        return "layout/login";
+        session.removeAttribute("cart");
+        return "redirect:/home";
 
     }
 

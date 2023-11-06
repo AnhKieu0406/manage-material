@@ -216,151 +216,37 @@
     <!-- container -->
     <div class="container">
         <!-- row -->
-        <div class="row">
-
-            <div class="col-md-7">
-                <!-- Billing Details -->
-                <form class="billing-details">
-                    <div class="section-title">
-                        <h3 class="title">Customer </h3>
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="username" th:value="${customer.username}">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="name" th:value="${customer.name}">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="" th:value="${customer.email}">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="address" th:value="${customer.address}">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="tel" name="tel" th:value="${customer.phone}">
-                    </div>
-                    <div class="form-group">
-                        <div class="input-checkbox">
-                            <input type="checkbox" id="create-account">
-                            <label for="create-account">
-                                <span></span>
-                                Create Account?
-                            </label>
-                            <div class="caption">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt.</p>
-                                <input class="input" type="password" name="password" placeholder="Enter Your Password">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- /Billing Details -->
-
-                <!-- Shiping Details -->
-                <div class="shiping-details">
-                    <div class="section-title">
-                        <h3 class="title">Shiping address</h3>
-                    </div>
-                    <div class="input-checkbox">
-                        <input type="checkbox" id="shiping-address">
-                        <label for="shiping-address">
-                            <span></span>
-                            Ship to a diffrent address?
-                        </label>
-                        <div class="caption">
-                            <div class="form-group">
-                                <input class="input" type="" name="first-name" placeholder="First Name">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="last-name" placeholder="Last Name">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="email" name="email" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="address" placeholder="Address">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="city" placeholder="City">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="country" placeholder="Country">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="tel" name="tel" placeholder="Telephone">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Shiping Details -->
-
-                <!-- Order notes -->
-                <div class="order-notes">
-                    <textarea class="input" placeholder="Order Notes"></textarea>
-                </div>
-                <!-- /Order notes -->
-            </div>
-
-            <!-- Order Details -->
-
-                <div class="col-md-5 order-details">
-                    <div class="section-title text-center">
-                        <h3 class="title">Your Order</h3>
-                    </div>
-                    <div class="order-summary">
-                        <div class="order-col">
-                            <div><strong >PRODUCT</strong></div>
-                            <div><strong>TOTAL</strong></div>
-                        </div>
-                        <div class="order-products">
-                            <div class="order-col" th:each="cart:${cartItem}">
-                                    <div th:text="${cart.product.name}"> x <span th:text="${cart.quantity}"></span></div>
-                                <div th:text="${#numbers.formatDecimal(cart.price*cart.quantity,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
-                                    $980.00
-                                </div>
-                            </div>
-                        </div>
-                        <div class="order-col">
-                            <div>Shiping</div>
-                            <div><strong>FREE</strong></div>
-                        </div>
-                        <div class="order-col">
-                            <div><strong>TOTAL</strong></div>
-                            <div><strong class="order-total"
-                                         th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></strong>
-                            </div>
-                        </div>
-                    </div>
-                    <form  th:action="@{/order/saveOrder}" method="post">
-                        <div class="form-group">
-                            <label>Select Payment</label>
-                            <!--                            <input type="text" name="idPayment" th:fields="*{newPayment.idPayment}" th:value="${newPayment.idPayment ==1}">-->
-
-                            <select type="text" class="form-control"  name="idPayment">
-                                <option th:each="pay:${listPayment}"
-                                        th:value="${pay.id}"
-                                        th:text="${pay.name}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Select Payment</label>
-                            <select type="text" class="form-control"  name="idTransport">
-                                <option th:each="tran:${listTransport}"
-                                        th:value="${tran.id}"
-                                        th:text="${tran.name}">
-                                </option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary m-2">Save</button>
-                    </form>
-                </div>
-
-
-                <!-- /Order Details -->
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+            </tbody>
+        </table>
+            <!-- /Order Details -->
 
         </div>
 

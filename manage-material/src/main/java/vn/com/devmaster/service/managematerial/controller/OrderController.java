@@ -46,17 +46,24 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    TransportMethodRepository tranRepo;
+
+    @Autowired
+    OrdersTransportRepository ordTranRepo;
+
 
     @GetMapping("/check-out/{username}")
     public String checkout(Model model, HttpSession session
             , @PathVariable(name = "username") String username
-            , @RequestParam(required = false, name = "idPayment") Integer idPayment
+//            , @RequestParam(required = false, name = "idPayment") Integer idPayment
+//            , @RequestParam(required = false, name = "idTransport") Integer idTransport
     ) {
 
         Customer logInfo = (Customer) session.getAttribute("customerName");
         Customer customer = customerService.findByUsername(username);
         if (logInfo == null) {
-            return "layout/index";
+            return "redirect:/home";
         }
         model.addAttribute("customer", customer);
         model.addAttribute("cartItem", shoppingCart.getAllItem());
@@ -65,33 +72,41 @@ public class OrderController {
 
 
         model.addAttribute("newPayment", new OrdersPayment());
-        model.addAttribute("idPayment", idPayment);
+//        model.addAttribute("idPayment", idPayment);
         model.addAttribute("listPayment", paymentMethodRepository.findAllByIsActive());
+        model.addAttribute("listTransport",tranRepo.findAllByIsActive());
 
-//        PaymentMethod paymentMethod = paymentMethodRepository.findAllById(idPayment);
-//        session.setAttribute("paymentId",paymentMethod);
-//        model.addAttribute("paymentId",paymentMethod);
 
         return "/features/checkout";
     }
 
 
     @PostMapping("/saveOrder")
-    public String addPayment(@ModelAttribute("newPayment") OrdersPayment ordersPayment, Model model, HttpSession session
+    public String addPayment( Model model, HttpSession session
             , @RequestParam(required = false, name = "idPayment") Integer idPayment
+            , @RequestParam(required = false, name = "idTransport") Integer idTransport
     ) {
         Collection<CartItem> cart = (Collection<CartItem>) session.getAttribute("cart");
         PaymentMethod paymentMethod = paymentMethodRepository.findAllById(idPayment);
+
+        TransportMethod transportMethod = tranRepo.findAllById(idTransport);
         Order order = orderService.save(cart);
         OrdersPayment payment = OrdersPayment.builder()
                 .idord(order)
-                .idPayment(idPayment)
+                .idPayment(paymentMethod)
                 .notes(paymentMethod.getNotes())
                 .build();
-
         ordersPaymentRepository.save(payment);
-        return "redirect:/home";
+        OrdersTransport ordersTransport = OrdersTransport.builder()
+                .idord(order)
+                .idTransport(transportMethod)
+                .notes(1)
+                .build();
+        ordTranRepo.save(ordersTransport);
+        return "/features/DonHang";
     }
+
+
 
     @GetMapping("/list_payment")
     public String ThanhToan(Model model) {

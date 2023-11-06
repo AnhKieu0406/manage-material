@@ -8,8 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import vn.com.devmaster.service.managematerial.dommain.Category;
 import vn.com.devmaster.service.managematerial.dommain.CustomUserDetail;
+import vn.com.devmaster.service.managematerial.dommain.Customer;
+import vn.com.devmaster.service.managematerial.dommain.ShoppingCart;
 import vn.com.devmaster.service.managematerial.service.CategoryService;
 import vn.com.devmaster.service.managematerial.service.ProductService;
+import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class CommonController {
@@ -18,8 +23,13 @@ public class CommonController {
     ProductService productSer;
 
 
+    @Autowired
+    ShoppingCartImpl shoppingCart;
+
+
     @GetMapping("")
-    public  String showIndex(){
+    public  String showIndex(HttpSession session){
+        Customer customer = (Customer) session.getAttribute("customerName");
         return "layout/index";
     }
 
@@ -37,8 +47,12 @@ public class CommonController {
 //        return "redirect:/features/category/view_category";
 //    }
     @GetMapping("/home")
-    public String home(Model model){
+    public String home(Model model, HttpSession session){
         model.addAttribute("products", productSer.findAllProductByCategory());
+        Customer customer = (Customer) session.getAttribute("customerName");
+        model.addAttribute("cartItem", shoppingCart.getAllItem());
+        model.addAttribute("Total", shoppingCart.getAmount());
+        model.addAttribute("cartCount", shoppingCart.getCount());
         return "/layout/home";
     }
 

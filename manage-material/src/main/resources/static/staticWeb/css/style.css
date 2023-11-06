@@ -426,7 +426,8 @@ textarea.input {
   margin-right: 0px;
 }
 
-.header-links li a {
+.header-links li a,
+.header-links span a{
   color: #FFF;
 }
 

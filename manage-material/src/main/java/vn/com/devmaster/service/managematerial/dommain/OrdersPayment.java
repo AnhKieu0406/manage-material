@@ -32,9 +32,9 @@ public class OrdersPayment {
     @JoinColumn(name = "IDORD")
     private Order idord;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "IDPAYMENT")
-    private Integer idPayment;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "IDPAYMENT")
+    private PaymentMethod idPayment;
 
 
 

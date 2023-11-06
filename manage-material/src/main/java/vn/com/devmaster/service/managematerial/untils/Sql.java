@@ -26,10 +26,11 @@ public class Sql {
     public static final String PRODUCT_CATEGORY_NAME = "" +
             "select c.NAME cateName\n" +
             "     , p.NAME proName\n" +
+            "       ,p.ID proId \n" +
             ",       p.IMAGE images\n" +
             ",       p.PRICE prices\n" +
             ",       p.ISACTIVE isActives \n" +
-            ",       p.NOTES note \n"+
+            ",       p.NOTES note \n" +
             "from product p\n" +
             "         join category c on p.IDCATEGORY = c.ID";
 

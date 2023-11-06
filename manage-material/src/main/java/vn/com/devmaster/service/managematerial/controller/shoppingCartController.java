@@ -46,8 +46,8 @@ public class shoppingCartController {
 
     @GetMapping("/view-cart")
     public String viewCart(Model model, HttpSession session) {
-        session.setAttribute("saveCart", shoppingCart.getAllItem());
-        session.getAttribute("saveCart");
+//        session.setAttribute("saveCart", shoppingCart.getAllItem());
+//        session.getAttribute("saveCart");
         model.addAttribute("cartItem", shoppingCart.getAllItem());
         model.addAttribute("Total", shoppingCart.getAmount());
         model.addAttribute("cartCount", shoppingCart.getCount());
@@ -71,8 +71,7 @@ public class shoppingCartController {
         }
         session.setAttribute("cart",shoppingCart.getAllItem());
 
-        model.addAttribute("cartCount", shoppingCart.getCount());
-        return "redirect:/shopping-cart/view-cart";
+        return "redirect:/home";
 
     }
 

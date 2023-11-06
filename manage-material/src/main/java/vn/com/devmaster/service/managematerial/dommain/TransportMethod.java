@@ -5,6 +5,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -35,5 +37,9 @@ public class TransportMethod {
 
     @Column(name = "ISACTIVE")
     private Byte isactive;
+
+    @OneToMany( mappedBy = "idTransport")
+    private List<OrdersTransport> transports;
+
 
 }
