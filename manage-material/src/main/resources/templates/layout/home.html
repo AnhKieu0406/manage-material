@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Electro - HTML Ecommerce Template</title>
+    <title>Electron - HTML Ecommerce Template</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -18,13 +18,13 @@
     <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/slick.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/slick-theme.css}"/>
 
-    <!-- nouislider -->
+    <!-- NouSlider -->
     <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/nouislider.min.css}"/>
 
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-    <!-- Custom stlylesheet -->
+    <!-- Custom stylesheet -->
     <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/style.css}"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -48,10 +48,10 @@
             </ul>
             <ul class="header-links pull-right">
                 <span th:if="${session.customerName == null}">
-                 <a class="btn btn-secondary btn-lg" th:href="@{/login}">login</a>
+                 <a class="btn btn-secondary btn-sm" th:href="@{/login}">login</a>
             </span>
                 <span th:if="${session.customerName != null}">
-                 <a  class="text-white" th:text="${session.customerName.username}">check out</a>
+                 <a  class="text-white" th:text="${'Xin Chào '+ session.customerName.name}">check out</a>
                      <a class="text-white" th:href="@{/logout}">Logout</a>
             </span>
             </ul>
@@ -84,7 +84,7 @@
                                 <option value="1">Category 01</option>
                                 <option value="1">Category 02</option>
                             </select>
-                            <input class="input" placeholder="Search here">
+                                <input class="input" placeholder="Search here">
                             <button class="search-btn">Search</button>
                         </form>
                     </div>
@@ -195,7 +195,7 @@
             <div class="col-md-4 col-xs-6">
                 <div class="shop">
                     <div class="shop-img">
-                        <img src="./img/shop01.png" alt="">
+                        <img th:src="@{/img/product_image/250_70956_laptop_lenovo_thinkbook_14_g4_8.png}" alt="">
                     </div>
                     <div class="shop-body">
                         <h3>Laptop<br>Collection</h3>
@@ -209,7 +209,7 @@
             <div class="col-md-4 col-xs-6">
                 <div class="shop">
                     <div class="shop-img">
-                        <img src="./img/shop03.png" alt="">
+                        <img th:src="@{/img/product_image/250_72525_laptop_dell_inspiron_3530_6.png}" width="5rem" alt="">
                     </div>
                     <div class="shop-body">
                         <h3>Accessories<br>Collection</h3>
@@ -223,7 +223,7 @@
             <div class="col-md-4 col-xs-6">
                 <div class="shop">
                     <div class="shop-img">
-                        <img src="./img/shop02.png" alt="">
+                        <img th:src="@{/img/product_image/250_72524_laptop_dell_vostro_3430_6.png}"  alt="">
                     </div>
                     <div class="shop-body">
                         <h3>Cameras<br>Collection</h3>
@@ -314,8 +314,10 @@
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <span class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i><a
-                                                th:href="@{'/shopping-cart/add-cart/'+${item.proId}}">Add to cart</a></span>
+                                        <a class="add-to-cart-btn" type="submit" style="padding: 1rem" th:href="@{'/shopping-cart/add-cart/'+${item.proId}}">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Add to cart
+                                        </a>
                                     </div>
                                 </div>
                                 <!-- /product -->

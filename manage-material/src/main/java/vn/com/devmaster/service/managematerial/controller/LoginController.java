@@ -105,6 +105,7 @@ public class LoginController {
     public  String logout(HttpSession session){
         session.removeAttribute("customerName");
         session.removeAttribute("cart");
+        shoppingCart.clear();
         return "redirect:/home";
 
     }

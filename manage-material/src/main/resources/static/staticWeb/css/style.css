@@ -447,7 +447,11 @@ textarea.input {
 #header {
   padding-top: 15px;
   padding-bottom: 15px;
-  background-color: #15161D;
+  background: linear-gradient(
+          to right,
+          #2d4373,
+          #ca2819
+  );
 }
 
 .header-logo {
@@ -1071,7 +1075,7 @@ textarea.input {
   padding: 0px 30px 0px 50px;
 }
 
-.product .add-to-cart .add-to-cart-btn:hover>i {
+.product .add-to-cart .add-to-cart-btn:hover>i{
   opacity: 1;
   visibility: visible;
 }
