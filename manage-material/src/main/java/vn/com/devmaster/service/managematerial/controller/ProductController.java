@@ -12,6 +12,7 @@ import vn.com.devmaster.service.managematerial.projection.ProductByClassId;
 import vn.com.devmaster.service.managematerial.repository.ProductRepository;
 import vn.com.devmaster.service.managematerial.service.CategoryService;
 import vn.com.devmaster.service.managematerial.service.ProductService;
+import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,7 +32,8 @@ public class ProductController {
     ProductRepository productRepo;
 
 
-
+    @Autowired
+    ShoppingCartImpl shoppingCart;
 
 
     // find all Category
@@ -69,12 +71,9 @@ public class ProductController {
         List<Category> category = categorySer.getAllCategory();
         List<ProductByClassId> list = productRepo.findAllByCategory_Id(id);
         Product product = productRepo.findAllById(id);
-        if (list!=null){
+
             model.addAttribute("categories",category);
             model.addAttribute("products", list);
-        }else {
-            model.addAttribute("error","ko co san pham nao");
-        }
 
         return "/features/product/view_product";
     }

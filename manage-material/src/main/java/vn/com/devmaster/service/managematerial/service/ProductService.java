@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import vn.com.devmaster.service.managematerial.dommain.Product;
 import vn.com.devmaster.service.managematerial.dto.ProductDto;
 import vn.com.devmaster.service.managematerial.mapper.ProductMapper;
+import vn.com.devmaster.service.managematerial.projection.ProductByClassId;
 import vn.com.devmaster.service.managematerial.projection.ProductCategoryName;
 import vn.com.devmaster.service.managematerial.repository.ProductRepository;
 
@@ -39,6 +40,13 @@ public class ProductService {
         List<ProductCategoryName> findProductCategory = productRepo.findProductCategory();
         return findProductCategory;
     }
+//
+//    public int getCountProduct(){
+//        List<ProductByClassId> list = productRepo.findAllByCategory_Id()
+//        List<Product> list = productRepo.findAll();
+//        return list.size();
+//    }
+
 
 
 //    public List<ProductDto> getAllProductsByCategoryId(Integer id){

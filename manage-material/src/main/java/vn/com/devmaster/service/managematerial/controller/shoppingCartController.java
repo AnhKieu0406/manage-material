@@ -14,6 +14,7 @@ import vn.com.devmaster.service.managematerial.service.ProductService;
 import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
@@ -55,7 +56,7 @@ public class shoppingCartController {
     }
 
     @GetMapping("/add-cart/{id}")
-    public String addCart(@PathVariable("id") Integer id, Model model, HttpSession session) {
+    public String addCart(@PathVariable("id") Integer id, Model model, HttpSession session,HttpServletRequest request) {
         Product product = productService.findById(id);
         int quantity = 1;
         if (product != null) {
@@ -71,27 +72,28 @@ public class shoppingCartController {
         }
         session.setAttribute("cart",shoppingCart.getAllItem());
 
-        return "redirect:/home";
+        return "redirect:" + request.getHeader("Referer");
 
     }
 
 
     @GetMapping("/clear")
-    public String clearCart() {
+    public String clearCart(HttpServletRequest request) {
         shoppingCart.clear();
-        return "redirect:/shopping-cart/view-cart";
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @GetMapping("/del/{id}")
-    public String removeCart(@PathVariable Integer id) {
+    public String removeCart(@PathVariable Integer id,HttpServletRequest request) {
         shoppingCart.remove(id);
-        return "redirect:/shopping-cart/view-cart";
+        shoppingCart.clear();
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("id") Integer id, @RequestParam("qty") Integer qty) {
+    public String update(@RequestParam("id") Integer id, @RequestParam("qty") Integer qty, HttpServletRequest request) {
         shoppingCart.update(id, qty);
-        return "redirect:/shopping-cart/view-cart";
+        return "redirect:" + request.getHeader("Referer");
     }
 
 
