@@ -6,6 +6,7 @@ public interface ProductCategoryName {
     Integer getProId();
     String getImages();
     Double getPrices();
+    Integer getQuantity();
     Byte getIsActive();
     String getNote();
 }

@@ -1,7 +1,6 @@
 package vn.com.devmaster.service.managematerial.controller;
 
 
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,19 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import vn.com.devmaster.service.managematerial.dommain.Customer;
 import vn.com.devmaster.service.managematerial.dto.CustomerDto;
 import vn.com.devmaster.service.managematerial.service.CustomerService;
-import vn.com.devmaster.service.managematerial.service.UserService;
 import vn.com.devmaster.service.managematerial.service.impl.ShoppingCartImpl;
 
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
 public class LoginController {
 
-    @Autowired
-    UserService userService;
 
     @Autowired
     ShoppingCartImpl shoppingCart;
@@ -79,11 +74,11 @@ public class LoginController {
                         @RequestParam("password") String password,
                         HttpSession session,Principal principal) {
         try {
-            Customer customer = userService.findByName(username);
+            Customer customer = customerService.findByUsername(username);
             if (!customer.getPassword().equals(password)) {
                 model.addAttribute("message", "Sai tên dăng nha hoặc mật khẩu");
 
-            } else {
+            } else if(customer.getRole().equals("USER")) {
 
                 model.addAttribute("customer", customer);
                 model.addAttribute("cartItem", shoppingCart.getAllItem());
@@ -92,6 +87,10 @@ public class LoginController {
                 session.setAttribute("customerName",customer);
 
                 return "redirect:/home";
+
+            }else if (customer.getRole().equals("ADMIN")){
+                session.setAttribute("admin",customer);
+                return "redirect:/admin";
             }
 
         } catch (Exception e) {

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/index}">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Custom fonts for this template-->
+
+    <link th:href="@{/demo.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        // console.log(11111111111)
+        // $(document).ready(function () {
+        //     $('#two:first').addClass("d-none");
+        //     $('#two').click(function (){
+        //         $('#one').addClass("d-none");
+        //         $('#two:first').removeClass("d-none");
+        //     });
+        // });
+    </script>
+
+</head>
+<body>
+<div layout:fragment="content">
+
+    <div class="text-center m-2">
+        <h3>Sản phẩm <span th:text="${order.idCustomer.name}"></span> vừa đặt</h3>
+    </div>
+
+    <div class="container">
+        <hr>
+        <div class="row" th:each="order:${order_detail}">
+            <div class="col-2">
+                <img th:src="@{'/img/product_image/'+${order.idproduct.image}}" class="img-fluid rounded-3"
+                     style="width: 120px;" alt="">
+            </div>
+            <div class="col-4">
+                <p th:text="${order.idproduct.name}"></p>
+                <p>Sl: <span th:text="${order.qty}"></span></p>
+            </div>
+            <div class="col-2">
+                <p style="padding: 27px 2rem;" th:text="${#numbers.formatDecimal(order.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">Giá tiên</p>
+            </div>
+        </div>
+        <hr>
+
+        <h4>Thông tin Đơn Hàng</h4>
+        <form>
+        <p>Mã Đơn Hàng: <span th:text="${order.idorders}"></span></p>
+        <p>Người Nhận: <span th:text="${order.nameReciver}"></span></p>
+        <p>Địa Chỉ Nhận Hàng: <span th:text="${order.address}"></span></p>
+            <p th:switch="${order.isactive}">
+                <span th:case="'1'"> <a th:href="@{'/order/xacNhanThanhtoan/'+${order.id}}">Xác Nhận Thanh Toán</a></span>
+                <span th:case="*">Thanh Toán Thành Công</span>
+            </p>
+          <p>
+              <a th:href="@{/admin}"
+                 class="btn btn-primary">Back to Admin</a>
+          </p>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

@@ -53,6 +53,9 @@ public class Order {
     @Column(name = "PHONE", length = 50)
     private String phone;
 
+    @Column(name ="ISACTIVE")
+    private  int isactive;
+
     @ManyToOne
     @JoinColumn(name = "IDCUSTOMER")
     private Customer idCustomer;
@@ -67,4 +70,7 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "idord")
     private List<OrdersTransport> ordersTransports;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "idorder")
+    private OrdersAddress ordersAddress;
 }

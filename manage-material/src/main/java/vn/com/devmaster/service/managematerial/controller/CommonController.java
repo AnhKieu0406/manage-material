@@ -1,8 +1,8 @@
 package vn.com.devmaster.service.managematerial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +34,7 @@ public class CommonController {
     ShoppingCartImpl shoppingCart;
 
 
-    @GetMapping("")
+    @GetMapping("/admin")
     public  String showIndex(HttpSession session){
         Customer customer = (Customer) session.getAttribute("customerName");
         return "layout/index";
@@ -66,8 +66,8 @@ public class CommonController {
     @GetMapping("/store")
     public String store(Model model){
 //        model.addAttribute("products", productSer.findAllProductByCategory());
-        model.addAttribute("products", productSer.findAllProduct());
-        model.addAttribute("categories",categorySer.getAllCategory());
+        model.addAttribute("products", productSer.findByIsActive());
+        model.addAttribute("categories",categorySer.findAll());
         model.addAttribute("cartItem", shoppingCart.getAllItem());
         model.addAttribute("Total", shoppingCart.getAmount());
         model.addAttribute("cartCount", shoppingCart.getCount());
@@ -76,8 +76,8 @@ public class CommonController {
 
     @GetMapping("/store/category/{id}")
     public String findProductById(@PathVariable("id") Integer id, Model model) {
-        List<Category> category = categorySer.getAllCategory();
-        List<ProductByClassId> list = productRepository.findAllByCategory_Id(id);
+        List<Category> category = categorySer.findAll();
+        List<Product> list = productRepository.findAllByCategory_Id(id);
         model.addAttribute("categories",category);
         model.addAttribute("products", list);
 

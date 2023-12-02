@@ -44,9 +44,12 @@ public class shoppingCartController {
     CartItemRepository cartItemRepository;
     @Autowired
     private CustomerDao customerDao;
+    @Autowired
+    private ProductRepository productRepository;
 
     @GetMapping("/view-cart")
-    public String viewCart(Model model, HttpSession session) {
+    public String viewCart(Model model
+            , HttpSession session) {
 //        session.setAttribute("saveCart", shoppingCart.getAllItem());
 //        session.getAttribute("saveCart");
         model.addAttribute("cartItem", shoppingCart.getAllItem());
@@ -56,8 +59,11 @@ public class shoppingCartController {
     }
 
     @GetMapping("/add-cart/{id}")
-    public String addCart(@PathVariable("id") Integer id, Model model, HttpSession session,HttpServletRequest request) {
-        Product product = productService.findById(id);
+    public String addCart(@PathVariable("id") Integer id
+            , Model model
+            , HttpSession session
+            ,HttpServletRequest request) {
+        Product product = productService.findAllById(id);
         int quantity = 1;
         if (product != null) {
             CartItem item = new CartItem();
@@ -67,6 +73,8 @@ public class shoppingCartController {
             item.setPrice(product.getPrice());
             item.setQuantity(item.getQuantity() + quantity);
             shoppingCart.add(item);
+            product.setQuatity(product.getQuatity());
+            productRepository.save(product);
 //    cartItemRepository.save(item);
 
         }
@@ -92,7 +100,7 @@ public class shoppingCartController {
 
     @PostMapping("/update")
     public String update(@RequestParam("id") Integer id, @RequestParam("qty") Integer qty, HttpServletRequest request) {
-        shoppingCart.update(id, qty);
+      shoppingCart.update(id, qty);
         return "redirect:" + request.getHeader("Referer");
     }
 

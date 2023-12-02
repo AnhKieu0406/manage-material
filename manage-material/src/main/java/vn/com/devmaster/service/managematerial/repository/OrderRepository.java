@@ -2,6 +2,7 @@ package vn.com.devmaster.service.managematerial.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import vn.com.devmaster.service.managematerial.dommain.Order;
 import vn.com.devmaster.service.managematerial.projection.OrderAllInformation;
@@ -21,5 +22,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query(value =ORDER_ALL_INFOMATION,nativeQuery = true)
     List<OrderAllInformation> findAllById(Integer id);
+
+    @Query(value = "select  o from Order o where o.id=:id")
+    Order findOrderById(@Param("id")Integer id);
 
 }

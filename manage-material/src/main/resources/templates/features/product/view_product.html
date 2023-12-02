@@ -18,6 +18,11 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.9"
+            integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+            crossorigin="anonymous"></script>
     <style>
         html {
             position: relative;
@@ -120,20 +125,21 @@
 </head>
 <body>
 <div class="container-fluid  " layout:fragment="content">
-    <a class="btn btn-primary btn-sm" th:href="@{/login}">LOgin</a>
     <div class="form-group">
         <h4>Categories</h4>
-        <div class="dropdown show" >
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               Select Laptop
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select Laptop
             </a>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" required >
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" required>
                 <div>
                     <a class="dropdown-item" th:href="@{/api/listproduct}">All product</a>
                 </div>
-                <div th:each="category:${categories}" >
-                    <a class="dropdown-item" th:href="@{'/api/listproduct/category/'+ ${category.id}}" th:text="${category.name}">Action</a>
+                <div th:each="category:${categories}">
+                    <a class="dropdown-item" th:href="@{'/api/list_product/category/'+ ${category.id}}"
+                       th:text="${category.name}">Action</a>
                 </div>
 
 
@@ -141,105 +147,176 @@
         </div>
     </div>
     <div class="row">
-        <div th:text="${error}">
-            <a class="active" href="cart.html">
-                <span class="icon-shopping-cart"><p ></p></span>
-                <span class="badge badge-warning"> $448.42</span>
-            </a>
+        <a class="btb btn-primary"
+           th:href="@{/cate/add}">
+            New Category
+        </a>
+        <div class="text-center m-2">
+            <!--            <a class="h3" th:href="@{/view/addStudent}"></a>-->
+            <h2 class="text-center">Danh sách Sản Phẩm</h2>
         </div>
-        <div class="card card-item " th:each="products: ${products}">
+        <table  class="table table-striped">
+            <thead class="">
+            <th>STT</th>
+            <th>Dòng Máy</th>
+            <th>NAME</th>
+            <th>Quantity</th>
+            <th>Image</th>
+            <th>CREATED_BY</th>
+            <th>UPDATED_BY</th>
+            <th>IS ACTIVE</th>
+            <th>Action</th>
 
-            <div th:id="${products.id}" class="p-img">
-                <a th:href="@{'/api/findById/' +${products.id}}">
-                    <!--                    /get-image/-->
-                    <img th:src="@{'/img/product_image/'+${products.image}}" class="card-img-top " alt="...">
-                </a>
+            </thead>
+            <tbody>
+            <tr th:each="product: ${products} ">
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.idcategory.name}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.quatity}"></td>
+                <td>
+                    <img th:src="@{'/get-image/'+${product.image}}"
+                         class="img-fluid rounded-3"
+                         style="width: 120px;" alt="">
+                </td>
 
-                <div class="p-hover">
-                    <div class="card infor">
-                        <div id="hd-hover" class="card -header ">
-                            <h6 class="card-title text-gray-100" th:text="${products.name}"></h6>
-                        </div>
-                        <div class="card-body">
+                <td th:text="${product.createdBy}"></td>
+                <td th:text="${product.updatedBy}"></td>
+                <td th:text="${product.isactive}"></td>
+                <td>
+                    <a th:href="@{'/api/edit/'+${product.id}}"
+                       class="btn btn-primary">Edit</a>
+                    <button
+                            class="btn btn-danger"
+                            hx-confirm="Are you sure?"
+                            hx-target="closest tr"
+                            hx-swap="outerHTML swap:0.5s"
+                            hx-trigger="click"
+                            th:attr="hx-delete=@{/api/delete/{id}(id=${product.id})}"
+                    >Delete
+                    </button>
+                    <!--                    <a th:href="@{'/api/on/'+${product.id}}"-->
+                    <!--                       class="btn btn-primary">Edit</a>-->
 
-                            <ul style="list-style-type:none">
-                                <li>- <span
-                                        th:text="${#numbers.formatDecimal(products.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span>
-                                </li>
-                                <li>- Giá HACOM : 10,000,000 <span>[Đã bao gồm VAT]</span></li>
-                                <li>- Bảo Hành : 12 tháng</li>
-                                <li><p>- Kho Hàng :</p>
-                                    <ul style="list-style-type: none ;font-size: 1rem">
-                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i><span
-                                                class="text-danger"> Số 43 Thái Hà - Đống Đa - Hà Nội</span></li>
-                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i> <span
-                                                class="text-danger"> Số 406 Tô Hiệu - Lê Chân - Hải Phòng</span></li>
-                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i><span
-                                                class="text-danger"> Số 77 Cao Lỗ - Đông Anh - Hà Nội</span></li>
-                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i><span
-                                                class="text-danger"> Số 135 Hùng Vương - Hoàng Văn Thụ - Bắc Giang</span>
-                                        </li>
-                                    </ul>
-                                </li>
 
-                            </ul>
-                            <div>
-                                <p class="infor-product"><i
-                                        class="fa-solid fa-layer-group"></i><span>Thông số sản phẩm</span></p>
-                                <div th:text="${products.notes}"></div>
-                            </div>
-                            <div>
-                                <h5 class="text-danger">Bộ quà tặng trị giá 1.300.000</h5>
-                                <p class="infor-product"><i class="fa-solid fa-layer-group"></i><span> Chương trình khuyến mại</span>
-                                </p>
-                                <ol class="list-group list-group-numbered">
-                                    <li>Balo Dell trị giá 2 tỷ</li>
-                                    <li>Lót chuột 3 tỷ</li>
-                                </ol>
-                                <h5 class="text-danger">Ưu đãi hấp dẫn mua kèm laptop</h5>
-                                <ol class="list-group list-group-numbered">
-                                    <li>Giảm ngay 50.000đ khi mua Balo, Cặp, Túi chống sốc cao cấp thương hiệu WIWU</li>
-                                    <li>Giảm ngay 100.000đ khi mua Ram Laptop thương hiệu KINGSTON, LEXAR</li>
-                                    <li>Giảm ngay 200.000đ khi mua Ghế công thái học thương hiệu LEGION</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="align-items-center d-flex justify-content-between">
-                    <a href="#" class="align-items-center   ">
-                        <img th:src="@{/img/star_1.png}">
-                    </a>
-                    <span>Mã:LTAC843 </span>
+                </td>
+                <td>
+                    <span th:switch="${product.isactive}">
+                        <button th:case="1"
+                                class="btn btn-secondary"
+                                hx-swap="outerHTML swap:0.5s"
+                                hx-target="body"
+                                hx-trigger="click"
+                                th:attr="hx-get=@{'/api/off/'+${product.id}}"
+                        >Off
+                        </button>
+                         <button th:case="0"
+                                 class="btn btn-success"
+                                 hx-swap="outerHTML swap:0.5s"
+                                 hx-target="body"
+                                 hx-trigger="click"
+                                 th:attr="hx-get=@{'/api/on/'+${product.id}}"
+                         >On
+                        </button>
+                    </span>
 
-                </div>
-                <h6 class="p-title card-title" th:text="${products.name}"></h6>
-                <p class="p-note" th:text="${products.notes}"></p>
-                <div class="d-flex justify-content-between">
-                    <span class="p-cost text-decoration-line-through"
-                          th:text="${#numbers.formatDecimal(products.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">đ</span>
-                    <span class="p- discount">(Tiết Kiệm 33%)</span>
-                </div>
-                <p class="p-price">8.669.000đ</p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <!--        <div class="card card-item " th:each="product: ${products}">-->
+        <!--        -->
+        <!--            <div th:id="${product.id}" class="p-img">-->
+        <!--                <a th:href="@{'/api/findById/' +${products.id}}">-->
+        <!--                    &lt;!&ndash;                    /get-image/&ndash;&gt;-->
+        <!--                    <img th:src="@{'/img/product_image/'+${product.image}}" class="card-img-top " alt="...">-->
+        <!--                </a>-->
 
-                <p class="giahssv fst-italic">Ưu đã học - sinh sinh viên
-                    <span class="text-danger " style="font-weight: 900;"> 8.592.000đ</span>
-                </p>
-                <div class="p-action d-flex justify-content-between  ">
-                <span>
+        <!--                <div class="p-hover">-->
+        <!--                    <div class="card infor">-->
+        <!--                        <div id="hd-hover" class="card -header ">-->
+        <!--                            <h6 class="card-title text-gray-100" th:text="${product.name}"></h6>-->
+        <!--                        </div>-->
+        <!--                        <div class="card-body">-->
 
-                    <div id="" th:switch="${products.isactive == 1}">
-                        <p class="text-success" th:case="${true}"><i class="fa-solid fa-check"></i> Sẵn hàng</p>
-                        <p class="text-danger" th:case="*"><i class="fa-solid fa-xmark"></i> Hết hàng</p>
-                    </div>
-                </span>
-                    <span class="p-cart"><a th:href="@{'/shopping-cart/add-cart/'+${products.id}}"><i
-                            class="fa-solid fa-cart-shopping"></i></a></span>
-                </div>
-            </div>
-        </div>
+        <!--                            <ul style="list-style-type:none">-->
+        <!--                                <li>- <span-->
+        <!--                                        th:text="${#numbers.formatDecimal(product.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span>-->
+        <!--                                </li>-->
+        <!--                                <li>- Giá HACOM : 10,000,000 <span>[Đã bao gồm VAT]</span></li>-->
+        <!--                                <li>- Bảo Hành : 12 tháng</li>-->
+        <!--                                <li><p>- Kho Hàng :</p>-->
+        <!--                                    <ul style="list-style-type: none ;font-size: 1rem">-->
+        <!--                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i><span-->
+        <!--                                                class="text-danger"> Số 43 Thái Hà - Đống Đa - Hà Nội</span></li>-->
+        <!--                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i> <span-->
+        <!--                                                class="text-danger"> Số 406 Tô Hiệu - Lê Chân - Hải Phòng</span></li>-->
+        <!--                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i><span-->
+        <!--                                                class="text-danger"> Số 77 Cao Lỗ - Đông Anh - Hà Nội</span></li>-->
+        <!--                                        <li><i class="fa-solid fa-location-dot fa-shake text-success"></i><span-->
+        <!--                                                class="text-danger"> Số 135 Hùng Vương - Hoàng Văn Thụ - Bắc Giang</span>-->
+        <!--                                        </li>-->
+        <!--                                    </ul>-->
+        <!--                                </li>-->
+
+        <!--                            </ul>-->
+        <!--                            <div>-->
+        <!--                                <p class="infor-product"><i-->
+        <!--                                        class="fa-solid fa-layer-group"></i><span>Thông số sản phẩm</span></p>-->
+        <!--                                <div th:text="${products.notes}"></div>-->
+        <!--                            </div>-->
+        <!--                            <div>-->
+        <!--                                <h5 class="text-danger">Bộ quà tặng trị giá 1.300.000</h5>-->
+        <!--                                <p class="infor-product"><i class="fa-solid fa-layer-group"></i><span> Chương trình khuyến mại</span>-->
+        <!--                                </p>-->
+        <!--                                <ol class="list-group list-group-numbered">-->
+        <!--                                    <li>Balo Dell trị giá 2 tỷ</li>-->
+        <!--                                    <li>Lót chuột 3 tỷ</li>-->
+        <!--                                </ol>-->
+        <!--                                <h5 class="text-danger">Ưu đãi hấp dẫn mua kèm laptop</h5>-->
+        <!--                                <ol class="list-group list-group-numbered">-->
+        <!--                                    <li>Giảm ngay 50.000đ khi mua Balo, Cặp, Túi chống sốc cao cấp thương hiệu WIWU</li>-->
+        <!--                                    <li>Giảm ngay 100.000đ khi mua Ram Laptop thương hiệu KINGSTON, LEXAR</li>-->
+        <!--                                    <li>Giảm ngay 200.000đ khi mua Ghế công thái học thương hiệu LEGION</li>-->
+        <!--                                </ol>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div class="card-body">-->
+        <!--                <div class="align-items-center d-flex justify-content-between">-->
+        <!--                    <a href="#" class="align-items-center   ">-->
+        <!--                        <img th:src="@{/img/star_1.png}">-->
+        <!--                    </a>-->
+        <!--                    <span>Mã:LTAC843 </span>-->
+
+        <!--                </div>-->
+        <!--                <h6 class="p-title card-title" th:text="${products.name}"></h6>-->
+        <!--                <p class="p-note" th:text="${products.notes}"></p>-->
+        <!--                <div class="d-flex justify-content-between">-->
+        <!--                    <span class="p-cost text-decoration-line-through"-->
+        <!--                          th:text="${#numbers.formatDecimal(products.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">đ</span>-->
+        <!--                    <span class="p- discount">(Tiết Kiệm 33%)</span>-->
+        <!--                </div>-->
+        <!--                <p class="p-price">8.669.000đ</p>-->
+
+        <!--                <p class="giahssv fst-italic">Ưu đã học - sinh sinh viên-->
+        <!--                    <span class="text-danger " style="font-weight: 900;"> 8.592.000đ</span>-->
+        <!--                </p>-->
+        <!--                <div class="p-action d-flex justify-content-between  ">-->
+        <!--                <span>-->
+
+        <!--                    <div id="" th:switch="${products.isactive == 1}">-->
+        <!--                        <p class="text-success" th:case="${true}"><i class="fa-solid fa-check"></i> Sẵn hàng</p>-->
+        <!--                        <p class="text-danger" th:case="*"><i class="fa-solid fa-xmark"></i> Hết hàng</p>-->
+        <!--                    </div>-->
+        <!--                </span>-->
+        <!--                    <span class="p-cart"><a th:href="@{'/shopping-cart/add-cart/'+${products.id}}"><i-->
+        <!--                            class="fa-solid fa-cart-shopping"></i></a></span>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </div>
 

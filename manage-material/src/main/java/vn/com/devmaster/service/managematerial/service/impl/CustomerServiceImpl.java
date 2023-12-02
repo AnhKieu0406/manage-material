@@ -31,7 +31,6 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhone(customerDto.getPhone());
         customer.setCreatedDate((new Date().toInstant()));
         customer.setIsactive((byte)1);
-
         customerRepo.save(customer);
         return customerDao.save(customer);
     }

@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Electro - HTML Ecommerce Template</title>
-    <title>Electron - HTML Ecommerce Template</title>
+    <title>Check out</title>
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
@@ -35,9 +34,17 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.9"
+            integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+            crossorigin="anonymous"></script>
     <script>
-        alert("hello")
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
+
+        myModal.addEventListener('shown.bs.modal', function () {
+            myInput.focus()
+        })
     </script>
 
 </head>
@@ -59,7 +66,7 @@
                  <a class="btn btn-secondary btn-lg" th:href="@{/login}">login</a>
             </span>
                 <span th:if="${session.customerName != null}">
-                 <a  class="text-white" th:text="${'Xin Chào '+ session.customerName.name}">check out</a>
+                 <a class="text-white" th:text="${'Xin Chào '+ session.customerName.name}">check out</a>
                      <a class="text-white" th:href="@{/logout}">Logout</a>
             </span>
             </ul>
@@ -77,7 +84,7 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="#" class="logo">
-                            <img src="./img/logo.png" alt="">
+                            <img th:src="@{/img/logo-hacom-since-2001.png}" alt="">
                         </a>
                     </div>
                 </div>
@@ -104,7 +111,7 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a th:href="@{/order/yourCarted/}">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
                                 <div class="qty">2</div>
@@ -117,39 +124,42 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">3</div>
+                                <div class="qty" th:text="${cartCount}"></div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product01.png" alt="">
+                                    <form th:action="@{/shopping-cart/update}" method="post">
+                                        <div class="product-widget" th:each="cart:${cartItem}">
+                                            <div class="product-img">
+                                                <img src="./img/product01.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <input type="hidden" name="id" th:value="${cart.product.id}"/>
+                                                <h3 class="product-name" th:text="${cart.name}"><a href="#">product name
+                                                    goes here</a></h3>
+                                                <h4 class="product-price"
+                                                    th:text="${#numbers.formatDecimal(cart.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></h4>
+                                                <label>
+                                                    <span class="qty-up">+</span>
+                                                    <input name="qty" type="number" th:value="${cart.quantity}" min="1"
+                                                           max="10">
+                                                    <span class="qty-down">-</span>
+                                                </label>
+                                            </div>
+                                            <a class="delete" th:href="@{'/shopping-cart/del/'+${cart.product.id}}"><i
+                                                    class="fa fa-close"></i></a>
                                         </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
+                                    </form>
 
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product02.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
                                 </div>
                                 <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
-                                    <h5>SUBTOTAL: $2940.00</h5>
+                                    <small th:text="${cartCount}+ ' Item(s) selected'"></small>
+                                    <h5 th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
+                                        SUBTOTAL: $2940.00</h5>
                                 </div>
-                                <div class="cart-btns">
-                                    <a href="#">View Cart</a>
-                                    <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+                                <div class="cart-btns" th:if="${session.customerName != null}">
+                                    <a th:href="@{/shopping-cart/view-cart}">View Cart</a>
+                                    <a th:href="@{/order/check-out}">check out</a>
                                 </div>
                             </div>
                         </div>
@@ -227,26 +237,142 @@
         <div class="row">
 
             <div class="col-md-7">
-                <!-- Billing Details -->
-                <form class="billing-details">
+
                     <div class="section-title">
-                        <h3 class="title">Customer </h3>
+                        <h3 class="title">Địa chỉ người gửi: </h3>
                     </div>
                     <div class="form-group">
-                        <input class="input" type="text" name="username" th:value="${customer.username}">
+                        <p>Tên người gửi: <span th:text="${customer.name}"></span></p>
+                        <p>Sdt: <span th:text="${customer.phone}"></span></p>
+                        <p>Địa chỉ: <span th:text="${customer.address}"></span></p>
                     </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="name" th:value="${customer.name}">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="" th:value="${customer.email}">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="text" name="address" th:value="${customer.address}">
-                    </div>
-                    <div class="form-group">
-                        <input class="input" type="tel" name="tel" th:value="${customer.phone}">
-                    </div>
+                    <form th:action="@{/order/saveOrder}" method="post">
+                        <div class="form-group">
+
+                            <h3>Địa chỉ giao Hàng</h3>
+<!--                            th:text="${addressChose.name+' ' + addressChose.phone +' '+addressChose.adress}"-->
+
+                            <div id="addressChose"  th:text="${addressChose.name+' - '+ addressChose.phone+ ' - '+addressChose.adress}"> >
+                            </div>
+                        </div>
+<!--                        ModalAddress-->
+                        <div class="d-flex flex-column align-items-center justify-content-center h-100vh">
+                            <!-- Button to Open the Modal -->
+                            <button type="button" class="btn btn-primary text-uppercase px-5 py-2" data-toggle="modal"
+                                    data-target="#myModal">
+                                Thay Đổi địa chỉ
+                            </button>
+
+                            <!-- The Modal -->
+                            <div class="modal fade" id="myModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Địa chỉ của tôi</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <div  th:each="adress,itemStat:${listAddress}"  >
+                                                <hr>
+                                                <input class="form-check-input"  type="radio"  name="idAddress"
+                                                       th:id="'exampleRadiosp'+${adress.id}"
+                                                       th:value="${adress.id }"
+                                                       th:checked="${adress.id == 1}"
+                                                       th:data="${adress.id}"
+                                                />
+                                                <label class="form-check-label"
+                                                       th:for="'exampleRadiosp'+${adress.id}"
+                                                       th:text="${adress.name+' - '+ adress.phone+ ' - '+adress.adress}">
+                                                    Default radio
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer d-flex">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            Don't have an account
+                                            <button type="button" class="btn btn-info" data-dismiss="modal" data-toggle="modal"
+                                                    data-target="#myModal2">Register</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="myModal2">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Thêm Địa chỉ</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                                  enctype="multipart/form-data">
+
+                                                <div class="form-group">
+                                                    <label>Name</label>
+                                                    <input type="text" class="form-control" name="name" placeholder="Enter name "
+                                                           id="name" value="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Phone</label>
+                                                    <input type="number" class="form-control" name="phone" placeholder="Enter phone"
+                                                           id="notes" value="">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label >Default file input example</label>
+                                                    <input class="form-control" type="text"  name="adress">
+                                                </div>
+                                            <button
+                                            class="btn btn-success"
+                                                th:attr="hx-get=@{order/add_address}"
+                                            ></button>
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+            <!--                        End Modal Address-->
+                        <label>Select Payment</label>
+                        <h3>Phương thức thanh toán</h3>
+                        <div class="form-check" th:each="pay:${listPayment}">
+                            <input class="form-input" type="radio" name="idPayment" th:id="'exampleRadiosp'+${pay.id}"
+                                   th:value="${pay.id}" th:checked="${pay.id ==1}">
+                            <label class="form-check-label" th:for="'exampleRadiosp'+${pay.id}" th:text="${pay.name}">
+                                Default radio
+                            </label>
+                        </div>
+                        <h3>Phương thức vận chuyển</h3>
+                        <div class="form-check" th:each="tran:${listTransport}">
+                            <input class="form-input" type="radio" name="idTransport" th:id="'exampleRadios'+${tran.id}"
+                                   th:value="${tran.id}" th:checked="${tran.id ==1}">
+                            <label class="form-check-label" th:for="'exampleRadios'+${tran.id}" th:text="${tran.name}">
+                                Default radio
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary m-2">Save</button>
+
+                    </form>
                     <div class="form-group">
                         <div class="input-checkbox">
                             <input type="checkbox" id="create-account">
@@ -261,120 +387,85 @@
                             </div>
                         </div>
                     </div>
-                </form>
-                <!-- /Billing Details -->
-
-                <!-- Shiping Details -->
-                <div class="shiping-details">
-                    <div class="section-title">
-                        <h3 class="title">Shiping address</h3>
-                    </div>
-                    <div class="input-checkbox">
-                        <input type="checkbox" id="shiping-address">
-                        <label for="shiping-address">
-                            <span></span>
-                            Ship to a diffrent address?
-                        </label>
-                        <div class="caption">
-                            <div class="form-group">
-                                <input class="input" type="" name="first-name" placeholder="First Name">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="last-name" placeholder="Last Name">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="email" name="email" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="address" placeholder="Address">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="city" placeholder="City">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="country" placeholder="Country">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-                            </div>
-                            <div class="form-group">
-                                <input class="input" type="tel" name="tel" placeholder="Telephone">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Shiping Details -->
 
                 <!-- Order notes -->
                 <div class="order-notes">
                     <textarea class="input" placeholder="Order Notes"></textarea>
                 </div>
-                <!-- /Order notes -->
             </div>
+            <div class="col-md-5 order-details">
+                <div class="section-title text-center">
+                    <h3 class="title">Your Order</h3>
+                </div>
+                <div class="order-summary">
+                    <div class="order-col">
+                        <div><strong>PRODUCT</strong></div>
+                        <div><strong>TOTAL</strong></div>
+                    </div>
+                    <div class="order-products">
+                        <div class="order-col" th:each="cart:${cartItem}">
+                            <div th:text="${cart.product.name}"> x <span th:text="${cart.quantity}"></span></div>
+                            <div th:text="${#numbers.formatDecimal(cart.price*cart.quantity,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
+                                $980.00
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-col">
+                        <div>Shiping</div>
+                        <div><strong>FREE</strong></div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong>TOTAL</strong></div>
+                        <div><strong class="order-total"
+                                     th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+                <!-- /Order notes -->
 
             <!-- Order Details -->
 
-                <div class="col-md-5 order-details">
-                    <div class="section-title text-center">
-                        <h3 class="title">Your Order</h3>
-                    </div>
-                    <div class="order-summary">
-                        <div class="order-col">
-                            <div><strong >PRODUCT</strong></div>
-                            <div><strong>TOTAL</strong></div>
-                        </div>
-                        <div class="order-products">
-                            <div class="order-col" th:each="cart:${cartItem}">
-                                    <div th:text="${cart.product.name}"> x <span th:text="${cart.quantity}"></span></div>
-                                <div th:text="${#numbers.formatDecimal(cart.price*cart.quantity,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
-                                    $980.00
-                                </div>
-                            </div>
-                        </div>
-                        <div class="order-col">
-                            <div>Shiping</div>
-                            <div><strong>FREE</strong></div>
-                        </div>
-                        <div class="order-col">
-                            <div><strong>TOTAL</strong></div>
-                            <div><strong class="order-total"
-                                         th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></strong>
-                            </div>
-                        </div>
-                    </div>
-                    <form  th:action="@{/order/saveOrder}" method="post">
-                        <div class="form-group">
-                            <label>Select Payment</label>
-                            <!--                            <input type="text" name="idPayment" th:fields="*{newPayment.idPayment}" th:value="${newPayment.idPayment ==1}">-->
+<!--            <div class="col-md-5 order-details">-->
+<!--                <div class="section-title text-center">-->
+<!--                    <h3 class="title">Your Order</h3>-->
+<!--                </div>-->
+<!--                <div class="order-summary">-->
+<!--                    <div class="order-col">-->
+<!--                        <div><strong>PRODUCT</strong></div>-->
+<!--                        <div><strong>TOTAL</strong></div>-->
+<!--                    </div>-->
+<!--                    <div class="order-products">-->
+<!--                        <div class="order-col" th:each="cart:${cartItem}">-->
+<!--                            <div th:text="${cart.product.name}"> x <span th:text="${cart.quantity}"></span></div>-->
+<!--                            <div th:text="${#numbers.formatDecimal(cart.price*cart.quantity,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">-->
+<!--                                $980.00-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="order-col">-->
+<!--                        <div>Shiping</div>-->
+<!--                        <div><strong>FREE</strong></div>-->
+<!--                    </div>-->
+<!--                    <div class="order-col">-->
+<!--                        <div><strong>TOTAL</strong></div>-->
+<!--                        <div><strong class="order-total"-->
+<!--                                     th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></strong>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                            <select type="text" class="form-control"  name="idPayment">
-                                <option th:each="pay:${listPayment}"
-                                        th:value="${pay.id}"
-                                        th:text="${pay.name}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Select Payment</label>
-                            <select type="text" class="form-control"  name="idTransport">
-                                <option th:each="tran:${listTransport}"
-                                        th:value="${tran.id}"
-                                        th:text="${tran.name}">
-                                </option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary m-2">Save</button>
-                    </form>
-                </div>
-
-
-                <!-- /Order Details -->
-
-        </div>
-
-        <!-- /row -->
+<!--        </div>-->
     </div>
-    <!-- /container -->
+    <!-- /Order Details -->
+
+</div>
+
+<!-- /row -->
+</div>
+<!-- /container -->
 </div>
 <!-- /SECTION -->
 
@@ -514,13 +605,26 @@
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-zoom/1.6.1/jquery.zoom.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/fontawesome.min.js"></script>
-<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/staticWeb/js/jquery.min.js}"></script>
+<script th:src="@{/staticWeb/js/bootstrap.min.js}"></script>
+<script th:src="@{/staticWeb/js/slick.min.js}"></script>
+<script th:src="@{/staticWeb/js/nouislider.min.js}"></script>
+<script th:src="@{/staticWeb/js/jquery.zoom.min.js}"></script>
+<script th:src="@{/staticWeb/js/main.js}"></script>
+<!--<script th:src="@{/js/main.js}"></script>-->
+<script>
+    $(document).ready(function(){
+        $("input.form-check-input").click(function(){
+            // alert($(this).val());
+            let val = $(this).siblings("label.form-check-label").text();
+            // alert(val);
+            $("#addressChose").text(val);
+        });
 
+        $('.modal').on('shown.bs.modal', function (e) {
+            $("body").addClass("modal-open")
+        });
+    });
+</script>
 </body>
 </html>

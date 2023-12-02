@@ -131,7 +131,9 @@
                                                 <h4 class="product-price"
                                                     th:text="${#numbers.formatDecimal(cart.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></h4>
                                                 <label>
+                                                    <span class="qty-up">+</span>
                                                     <input name="qty" type="number" th:value="${cart.quantity}" min="1" max="10">
+                                                    <span class="qty-down">-</span>
                                                 </label>
                                             </div>
                                             <a class="delete" th:href="@{'/shopping-cart/del/'+${cart.product.id}}"><i class="fa fa-close"></i></a>
@@ -205,9 +207,9 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
-                    <li><a href="#">Home</a></li>
+                    <li><a th:href="@{/home}">Home</a></li>
                     <li><a href="#">All Categories</a></li>
-                    <li><a href="#">Accessories</a></li>
+                    <li><a th:href="@{/store}">Accessories</a></li>
                     <li class="active">Headphones (227,490 Results)</li>
                 </ul>
             </div>
@@ -371,7 +373,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" required >
                             <div>
-                                <a class="dropdown-item" th:href="@{/api/listproduct}">All product</a>
+                                <a class="dropdown-item" th:href="@{/store}">All product</a>
                             </div>
                             <div th:each="category:${categories}" >
                                 <a class="dropdown-item" th:href="@{'/store/category/'+ ${category.id}}" th:text="${category.name}">Action</a>
@@ -413,18 +415,21 @@
                                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
                                     <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                 </div>
-                                <div id="" th:switch="${product.isactive != 1}">
-                                    <p class="text-success" th:case="${true}"><i class="fa-solid fa-check"></i>
-                                        Sẵn hàng</p>
-                                    <p class="text-danger" th:case="*"><i class="fa-solid fa-xmark"></i> Hết
-                                        hàng</p>
+                                <div>
+                                    <p class="text-success" th:if="${product.quatity > 0 }" >
+                                        <i class="fa-solid fa-check"></i> Sẵn hàng</p>
+                                    <p class="text-danger" th:if="${product.quatity == 0 }" >
+                                        <i class="fa-solid fa-xmark"></i> Hết hàng</p>
                                 </div>
                             </div>
-                            <div class="add-to-cart">
-                                <a class="add-to-cart-btn" type="submit" style="padding: 1rem" th:href="@{'/shopping-cart/add-cart/'+${product.id}}">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Add to cart
-                                </a>
+                            <div th:if="${product.quatity > 0 }">
+                                <div class="add-to-cart"  >
+                                    <a class="add-to-cart-btn" type="submit" style="padding: 1rem"
+                                       th:href="@{'/shopping-cart/add-cart/'+${product.id}}">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Add to cart
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

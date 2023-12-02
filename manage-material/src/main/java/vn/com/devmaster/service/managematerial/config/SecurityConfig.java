@@ -1,30 +1,34 @@
 package vn.com.devmaster.service.managematerial.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//
+//import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
-public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .authorizeHttpRequests()
-//                        .antMatchers("/api","/api/listproduct").hasAnyRole("USER")
-//                        .antMatchers("/**").permitAll()
-//                        .anyRequest().authenticated();
+//@Configuration
 
-//                .formLogin()
-//                        .loginPage("/api/login")
-//                        .loginProcessingUrl("/api/login-check")
-//                    .failureUrl("/api/login?error=true")
+public class SecurityConfig  {
 
-//                        .and()
-//                .logout().permitAll();
-        return http.build();
-    }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+////        http
+////                .csrf().disable()
+////                .authorizeHttpRequests()
+////                .antMatchers("/staticWeb/**"
+////                        ,"/img/**"
+////                        ,"/js/**"
+////                        ,"/css/**")
+////                    .permitAll()
+////                .antMatchers("/**").permitAll();
+////
+////
+////
+////
+////        return http.build();
+//
+//    }
 }

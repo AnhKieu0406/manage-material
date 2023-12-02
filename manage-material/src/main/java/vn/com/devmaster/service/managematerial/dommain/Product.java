@@ -14,7 +14,6 @@ import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
 @Getter
 @Setter
@@ -52,11 +51,11 @@ public class Product {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "CREATED_DATE")
-    private LocalDateTime createdDate;
+    private Instant createdDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "UPDATED_DATE")
-    private LocalDateTime updatedDate;
+    private Instant updatedDate;
 
     @Size(max = 50)
     @Column(name = "CREATED_BY", length = 50)
@@ -78,6 +77,5 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//    List<OrdersDetail> ordersDetails;
+
 }

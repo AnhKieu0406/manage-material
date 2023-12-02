@@ -33,36 +33,31 @@
         </div>
         <table >
             <thead class="table-dark">
-            <th>STT</th>
             <th>Id Order</th>
-            <th>Id Customer</th>
-            <th>Order date/th>
+            <th>Order date</th>
             <th>Total Money</th>
-            <th>Notes</th>
             <th>Name Reciver</th>
-            <th>Adress</th>
             <th>Phone</th>
             <th>Action</th>
             </thead>
             <tbody>
-            <tr th:each="orders: ${orders} ">
-                <td th:text="${orders.id}"></td>
-                <td th:text="${orders.idorders}"></td>
-                <td th:text="${orders.getCustomer().id}"></td>
-                <td th:text="${orders.ordersDate}"></td>
-                <td th:text="${orders.totalMoney}"></td>
-                <td th:text="${orders.notes}"></td>
-                <td th:text="${orders.nameReciver}"></td>
-                <td th:text="${orders.address}"></td>
-                <td th:text="${orders.phone}"></td>
-<!--                <td>-->
-<!--&lt;!&ndash;                    @{'/view/edit/'+${student.id}}&ndash;&gt;-->
-<!--                    <a th:href="@{'/view/edit/'+${orders.id}}"-->
-<!--                       class="btn btn-primary">Edit</a>-->
-<!--&lt;!&ndash;                    @{/view/demo/students/{id}(id=${student.id})}&ndash;&gt;-->
-<!--&lt;!&ndash;                    <a th:href="@{/view/delete/{id}(id=${orders.id})}"&ndash;&gt;-->
-<!--&lt;!&ndash;                       class="btn btn-danger">Delete</a>&ndash;&gt;-->
-<!--                </td>-->
+            <tr th:each="order: ${orders} ">
+                <td th:text="${order.idorders}"></td>
+                <td th:text="${order.ordersDate}"></td>
+                <td th:text="${order.totalMoney}"></td>
+                <td th:text="${order.nameReciver}"></td>
+                <td th:text="${order.phone}"></td>
+                <td th:switch="${order.isactive}">
+                    <span th:case="'1'">Đang chờ thanh toán</span>
+                    <span th:case="*">Thanh toán thành công</span>
+                </td>
+                <td>
+                    <a th:href="@{'/order/detail_order/'+${order.id}}">Chi tiết đơn hàng</a>
+                    <p th:switch="${order.isactive}">
+                        <span th:case="'1'"> <a th:href="@{'/order/xacNhanThanhtoan/'+${order.id}}">Xác Nhận Thanh Toán</a></span>
+                        <span th:case="*">Thanh Toán Thành Công</span>
+                    </p>
+                </td>
 
             </tr>
             </tbody>

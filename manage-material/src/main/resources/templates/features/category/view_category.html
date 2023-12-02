@@ -13,44 +13,76 @@
 
     <link th:href="@{/demo.css}" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.9"
+            integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/vendor/datatables/dataTables.bootstrap4.css}"  />
 
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
+
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+    </script>
 </head>
 <body>
-<div  layout:fragment="content">
+<div layout:fragment="content">
+    <a class="btb btn-primary"
+            th:href="@{/cate/add}">
+        New Category
+    </a>
+    <div class="text-center m-2">
+        <!--            <a class="h3" th:href="@{/view/addStudent}"></a>-->
+        <h2 class="text-center">Danh sách Sản Phẩm</h2>
+    </div>
+    <table id="myTable" class="display">
+        <thead class="">
+        <th>STT</th>
+        <th>IDPARENT</th>
+        <th>NAME</th>
+        <th>NOTES</th>
+        <th>ICON</th>
+        <th>CREATED_DATE</th>
+        <th>UPDATED_DATE</th>
+        <th>CREATED_BY</th>
+        <th>UPDATED_BY</th>
+        <th>ISACTIVE</th>
+        <th>Action</th>
 
-        <div class="text-center m-2">
-<!--            <a class="h3" th:href="@{/view/addStudent}">Create new student</a>-->
-        </div>
-        <table >
-            <thead class="table-dark">
-            <th>STT</th>
-            <th>IDPARENT</th>
-            <th>NAME</th>
-            <th>NOTES</th>
-            <th>ICON</th>
-            <th>CREATED_DATE</th>
-            <th>UPDATED_DATE</th>
-            <th>CREATED_BY</th>
-            <th>UPDATED_BY</th>
-            <th>ISACTIVE</th>
-            <th>Action</th>
-
-            </thead>
-            <tbody>
-            <tr th:each="category: ${categories} ">
-                <td th:text="${category.id}"></td>
-                <td th:text="${category.idparent}"></td>
-                <td th:text="${category.name}"></td>
-                <td th:text="${category.notes}"></td>
-                <td th:text="${category.icon}"></td>
-                <td th:text="${#temporals.format(category.createdDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                <td th:text="${#temporals.format(category.updatedDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                <td th:text="${category.createdBy}"></td>
-                <td th:text="${category.updatedBy}"></td>
-                <td th:text="${category.isactive}"></td>
-            </tr>
-            </tbody>
-        </table>
+        </thead>
+        <tbody>
+        <tr th:each="category: ${categories} ">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.idparent}"></td>
+            <td th:text="${category.name}"></td>
+            <td th:text="${category.notes}"></td>
+            <td>
+                <img th:src="@{'/get-image/'+${category.icon}}"
+                     class="img-fluid rounded-3"
+                     style="width: 120px;" alt="">
+            </td>
+            <td th:text="${#temporals.format(category.createdDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(category.updatedDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+            <td th:text="${category.createdBy}"></td>
+            <td th:text="${category.updatedBy}"></td>
+            <td th:text="${category.isactive}"></td>
+            <td>
+                <a th:href="@{'/cate/edit/'+${category.id}}"
+                   class="btn btn-primary">Edit</a>
+                <button
+                        class="btn btn-danger"
+                        hx-confirm = "Are you sure?"
+                        hx-target="closest tr"
+                        hx-swap = "outerHTML swap:0.5s"
+                        hx-trigger="click"
+                        th:attr="hx-delete=@{/cate/delete/{id}(id=${category.id})}"
+                  >Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
 
 </div>

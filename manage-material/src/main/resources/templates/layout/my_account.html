@@ -1,38 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head >
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Electro - HTML Ecommerce Template</title>
 
+    <title>Electron - HTML Ecommerce Template</title>
+
+    <div th:fragment="link">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/bootstrap.min.css}"/>
+
+        <!-- Slick -->
+        <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/slick.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/slick-theme.css}"/>
+
+        <!-- NouSlider -->
+        <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/nouislider.min.css}"/>
+
+        <!-- Font Awesome Icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+        <!-- Custom stylesheet -->
+        <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/style.css}"/>
+
+<!--        &lt;!&ndash; HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries &ndash;&gt;-->
+<!--        &lt;!&ndash; WARNING: Respond.js doesn't work if you view the page via file:// &ndash;&gt;-->
+<!--        &lt;!&ndash;[if lt IE 9]>-->
+<!--        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
+<!--        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
+<!--        <![endif]&ndash;&gt;-->
+    </div>
     <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/bootstrap.min.css}"/>
-
-    <!-- Slick -->
-    <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/slick.css}"/>
-    <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/slick-theme.css}"/>
-
-    <!-- NouSlider -->
-    <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/nouislider.min.css}"/>
-
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <!-- Custom stylesheet -->
-    <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/style.css}"/>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 <body>
@@ -42,18 +48,16 @@
     <div id="top-header">
         <div class="container">
             <ul class="header-links pull-left">
-
-                <li><a href="#"><i class="fa fa-phone"></i> <label
-                        th:text="'Hello '+ ${session.customerName.name}"></label></a></li>
+                <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
                 <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
                 <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
             </ul>
             <ul class="header-links pull-right">
                 <span th:if="${session.customerName == null}">
-                 <a class="btn btn-secondary btn-lg" th:href="@{/login}">Login</a>
+                 <a class="btn btn-secondary btn-sm" th:href="@{/login}">login</a>
             </span>
-                 <span th:if="${session.customerName != null}">
-                 <a  class="text-white" th:text="${'Xin Chào '+ session.customerName.name}">check out</a>
+                <span th:if="${session.customerName != null}">
+                 <a  class="text-white" th:href="@{/myAccount}" th:text="${'Xin Chào '+ session.customerName.name}">check out</a>
                      <a class="text-white" th:href="@{/logout}">Logout</a>
             </span>
             </ul>
@@ -71,7 +75,7 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="#" class="logo">
-                            <img src="./img/logo.png" alt="">
+                            <img th:src="@{/img/logo-hacom-since-2001.png}" alt="">
                         </a>
                     </div>
                 </div>
@@ -98,7 +102,7 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a th:href="@{/order/yourCarted}">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
                                 <div class="qty">2</div>
@@ -111,39 +115,40 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">0</div>
+                                <div class="qty" th:text="${cartCount}"></div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product01.png" alt="">
+                                    <form  th:action="@{/shopping-cart/update}" method="post">
+                                        <div class="product-widget" th:each="cart:${cartItem}">
+                                            <div class="product-img">
+                                                <img src="./img/product01.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <input type="hidden" name="id" th:value="${cart.product.id}" />
+                                                <h3 class="product-name" th:text="${cart.name}"><a href="#">product name
+                                                    goes here</a></h3>
+                                                <h4 class="product-price"
+                                                    th:text="${#numbers.formatDecimal(cart.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></h4>
+                                                <label>
+                                                    <span class="qty-up">+</span>
+                                                    <input name="qty" type="number" th:value="${cart.quantity}" min="1" max="10">
+                                                    <span class="qty-down">-</span>
+                                                </label>
+                                            </div>
+                                            <a class="delete" th:href="@{'/shopping-cart/del/'+${cart.product.id}}"><i class="fa fa-close"></i></a>
                                         </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
+                                    </form>
 
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product02.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
                                 </div>
                                 <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
-                                    <h5>SUBTOTAL: $2940.00</h5>
+                                    <small th:text="${cartCount}+ ' Item(s) selected'"></small>
+                                    <h5 th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
+                                        SUBTOTAL: $2940.00</h5>
                                 </div>
-                                <div class="cart-btns">
-                                    <a href="#">View Cart</a>
-                                    <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+                                <div class="cart-btns" th:if="${session.customerName != null}">
+                                    <a  th:href="@{/shopping-cart/view-cart}">View Cart</a>
+                                    <a  th:href="@{/order/check-out}">check out</a>
                                 </div>
                             </div>
                         </div>
@@ -177,9 +182,9 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a th:href="@{/home}">Home</a></li>
                 <li><a href="#">Hot Deals</a></li>
-                <li><a href="#">Categories</a></li>
+                <li><a th:href="@{/store}">Categories</a></li>
                 <li><a href="#">Laptops</a></li>
                 <li><a href="#">Smartphones</a></li>
                 <li><a href="#">Cameras</a></li>
@@ -192,99 +197,62 @@
     <!-- /container -->
 </nav>
 <!-- /NAVIGATION -->
-
-<!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
+    <div class="container" style="color:#2B2D42;">
         <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="breadcrumb-header">Checkout</h3>
-                <ul class="breadcrumb-tree">
-                    <li><a th:href="@{/shopping-cart/view-cart/}">Home</a></li>
-                    <li class="active">Checkout</li>
-                </ul>
+        <div class="">
+            <h1>Tài Khoản của tôi</h1>
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="font-size:4rem ">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Hồ Sơ</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Địa chỉ của tôi</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
             </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div th:if="${session.customerName != null}">
+                        <p>Tên Tài Khoản : <span th:text="${my_account.username}"></span></p>
+                        <p>Họ Và Tên : <span th:text="${my_account.name}"></span></p>
+                        <p>Địa chỉ : <span th:text="${my_account.address}"></span></p>
+                        <p>Số Điện Thoại: <span th:text="${my_account.phone}"></span></p>
 
-<!-- SECTION -->
-<div class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <table class="table table-dark">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="order: ${order}">
-                <td th:text="${order.id}"></td>
-                <td th:text="${order.nameReciver}"></td>
-                <td th:text="${order.idCustomer.name}"></td>
-                <td th:text="${order.totalMoney}"></td>
-                <td th:text="${order.address}"></td>
-
-
-            </tr>
-            </tbody>
-        </table>
-            <!-- /Order Details -->
-
-        </div>
-
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /SECTION -->
-
-<!-- NEWSLETTER -->
-<div id="newsletter" class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="newsletter">
-                    <p>Sign Up for the <strong>NEWSLETTER</strong></p>
-                    <form>
-                        <input class="input" type="email" placeholder="Enter Your Email">
-                        <button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
-                    </form>
-                    <ul class="newsletter-follow">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                        </li>
-                    </ul>
+                    </div>
                 </div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    <table >
+                        <thead class="table-dark">
+                        <tr>
+                            <th>STT</th>
+                            <th>Họ Và Tên</th>
+                            <th>Địa chỉ</th>
+                            <th>Số Điện thoại</th>
+                            <th>Action</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        <tr th:each="adress: ${myAddress} ">
+                            <td th:text="${adress.id}"></td>
+                            <td th:text="${adress.name}"></td>
+                            <td th:text="${adress.adress}"></td>
+                            <td th:text="${adress.phone}"></td>
+                            <td class="d-flex">
+                                <a th:href="@{'/cate/edit/'+${adress.id}}"
+                                   class="btn btn-primary">Edit</a>
+                                <a th:href="@{'/cate/delete/'+${adress.id}}"
+                                   class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
             </div>
         </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
 </div>
-<!-- /NEWSLETTER -->
-
+    </div>
 <!-- FOOTER -->
 <footer id="footer">
     <!-- top footer -->
@@ -385,13 +353,14 @@
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-zoom/1.6.1/jquery.zoom.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/fontawesome.min.js"></script>
-<script th:src="@{/js/main.js}"></script>
+<div th:fragment="script">
+    <script th:src="@{/staticWeb/js/jquery.min.js}"></script>
+    <script th:src="@{/staticWeb/js/bootstrap.min.js}"></script>
+    <script th:src="@{/staticWeb/js/slick.min.js}"></script>
+    <script th:src="@{/staticWeb/js/nouislider.min.js}"></script>
+    <script th:src="@{/staticWeb/js/jquery.zoom.min.js}"></script>
+    <script th:src="@{/staticWeb/js/main.js}"></script>
+</div>
 
 </body>
 </html>

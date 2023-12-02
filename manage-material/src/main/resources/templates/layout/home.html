@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head >
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,6 +24,7 @@
         <link type="text/css" rel="stylesheet" th:href="@{/staticWeb/css/nouislider.min.css}"/>
 
         <!-- Font Awesome Icon -->
+        <!--        <link rel="stylesheet" th:href="@{/staticWeb/font-awesome.min.css}">-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
         <!-- Custom stylesheet -->
@@ -38,13 +39,13 @@
     </div>
     <!-- Google font -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-        swal({
-            title: "Xin chào quý khách !!!",
-            text: "Chúc quý khác  một ngày tốt lành ",
-            imageUrl:'https://hanoicomputercdn.com/media/lib/09-08-2023/logo-hacom-since-2001.png'
-        });
-    </script>
+    <!--    <script>-->
+    <!--        swal({-->
+    <!--            title: "Xin chào quý khách !!!",-->
+    <!--            text: "Chúc quý khác  một ngày tốt lành ",-->
+    <!--            imageUrl:'https://hanoicomputercdn.com/media/lib/09-08-2023/logo-hacom-since-2001.png'-->
+    <!--        });-->
+    <!--    </script>-->
 
 
 </head>
@@ -63,10 +64,15 @@
                 <span th:if="${session.customerName == null}">
                  <a class="btn btn-secondary btn-sm" th:href="@{/login}">login</a>
             </span>
-                <span th:if="${session.customerName != null}">
-                 <a  class="text-white" th:text="${'Xin Chào '+ session.customerName.name}">check out</a>
-                     <a class="text-white" th:href="@{/logout}">Logout</a>
-            </span>
+                <div th:if="${session.customerName != null}">
+                    <span>
+                        <i class="fa-solid fa-user" style="color: aliceblue;"></i>
+                        <a class="text-white"
+                           th:href="@{'/myAccount/'+${session.customerName.username}}"
+                           th:text="${'Xin Chào '+ session.customerName.name}">check out</a>
+                    </span>
+                    <a class="text-white" th:href="@{/logout}" style="color: aliceblue;">Logout</a>
+                </div>
             </ul>
         </div>
     </div>
@@ -97,7 +103,7 @@
                                 <option value="1">Category 01</option>
                                 <option value="1">Category 02</option>
                             </select>
-                                <input class="input" placeholder="Search here">
+                            <input class="input" placeholder="Search here">
                             <button class="search-btn">Search</button>
                         </form>
                     </div>
@@ -109,7 +115,7 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a th:href="@{/order/yourCarted}">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
                                 <div class="qty">2</div>
@@ -126,19 +132,28 @@
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
-                                    <div class="product-widget" th:each="cart:${cartItem}">
-                                        <div class="product-img">
-                                            <img src="./img/product01.png" alt="">
+                                    <form th:action="@{/shopping-cart/update}" method="post">
+                                        <div class="product-widget" th:each="cart:${cartItem}">
+                                            <div class="product-img">
+                                                <img src="./img/product01.png" alt="">
+                                            </div>
+                                            <div class="product-body">
+                                                <input type="hidden" name="id" th:value="${cart.product.id}"/>
+                                                <h3 class="product-name" th:text="${cart.name}"><a href="#">product name
+                                                    goes here</a></h3>
+                                                <h4 class="product-price"
+                                                    th:text="${#numbers.formatDecimal(cart.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></h4>
+                                                <label>
+                                                    <span class="qty-up">+</span>
+                                                    <input name="qty" type="number" th:value="${cart.quantity}" min="1"
+                                                           max="10">
+                                                    <span class="qty-down">-</span>
+                                                </label>
+                                            </div>
+                                            <a class="delete" th:href="@{'/shopping-cart/del/'+${cart.product.id}}"><i
+                                                    class="fa fa-close"></i></a>
                                         </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name" th:text="${cart.name}"><a href="#">product name
-                                                goes here</a></h3>
-                                            <h4 class="product-price"
-                                                th:text="${#numbers.formatDecimal(cart.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'">
-                                                <span class="qty" th:value="${cart.quantity}">1x</span>$980.00</h4>
-                                        </div>
-                                        <a class="delete" th:href="@{'/shopping-cart/del/'+${cart.product.id}}"><i class="fa fa-close"></i></a>
-                                    </div>
+                                    </form>
 
                                 </div>
                                 <div class="cart-summary">
@@ -147,8 +162,8 @@
                                         SUBTOTAL: $2940.00</h5>
                                 </div>
                                 <div class="cart-btns" th:if="${session.customerName != null}">
-                                    <a  th:href="@{/shopping-cart/view-cart}">View Cart</a>
-                                    <a  th:href="@{'/order/check-out/'+${session.customerName.username}}">check out</a>
+                                    <a th:href="@{/shopping-cart/view-cart}">View Cart</a>
+                                    <a th:href="@{/order/check-out}">check out</a>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +237,8 @@
             <div class="col-md-4 col-xs-6">
                 <div class="shop">
                     <div class="shop-img">
-                        <img th:src="@{/img/product_image/250_72525_laptop_dell_inspiron_3530_6.png}" width="5rem" alt="">
+                        <img th:src="@{/img/product_image/250_72525_laptop_dell_inspiron_3530_6.png}" width="5rem"
+                             alt="">
                     </div>
                     <div class="shop-body">
                         <h3>Accessories<br>Collection</h3>
@@ -236,7 +252,7 @@
             <div class="col-md-4 col-xs-6">
                 <div class="shop">
                     <div class="shop-img">
-                        <img th:src="@{/img/product_image/250_72524_laptop_dell_vostro_3430_6.png}"  alt="">
+                        <img th:src="@{/img/product_image/250_72524_laptop_dell_vostro_3430_6.png}" alt="">
                     </div>
                     <div class="shop-body">
                         <h3>Cameras<br>Collection</h3>
@@ -319,19 +335,23 @@
                                             <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span>
                                             </button>
                                         </div>
-                                        <div id="" th:switch="${item.isActive == 1}">
-                                            <p class="text-success" th:case="${true}"><i class="fa-solid fa-check"></i>
+                                        <div>
+                                            <p class="text-success" th:if="${item.quantity > 0 }" ><i class="fa-solid fa-check"></i>
                                                 Sẵn hàng</p>
-                                            <p class="text-danger" th:case="*"><i class="fa-solid fa-xmark"></i> Hết
+                                            <p class="text-danger" th:if="${item.quantity == 0 }" ><i class="fa-solid fa-xmark"></i> Hết
                                                 hàng</p>
                                         </div>
                                     </div>
-                                    <div class="add-to-cart">
-                                        <a class="add-to-cart-btn" type="submit" style="padding: 1rem" th:href="@{'/shopping-cart/add-cart/'+${item.proId}}">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            Add to cart
-                                        </a>
+                                    <div th:if="${item.quantity > 0 }">
+                                        <div class="add-to-cart"  >
+                                            <a class="add-to-cart-btn" type="submit" style="padding: 1rem"
+                                               th:href="@{'/shopping-cart/add-cart/'+${item.proId}}">
+                                                <i class="fa fa-shopping-cart"></i>
+                                                Add to cart
+                                            </a>
+                                        </div>
                                     </div>
+
                                 </div>
                                 <!-- /product -->
 
@@ -846,7 +866,7 @@
                         <!-- product widget -->
                         <div class="product-widget">
                             <div class="product-img">
-                                <img src=""  alt="ds">
+                                <img src="" alt="ds">
                             </div>
                             <div class="product-body">
                                 <p class="product-category">Category</p>
@@ -1082,12 +1102,17 @@
 
 <!-- jQuery Plugins -->
 <div th:fragment="script">
-<script th:src="@{/staticWeb/js/jquery.min.js}"></script>
-<script th:src="@{/staticWeb/js/bootstrap.min.js}"></script>
-<script th:src="@{/staticWeb/js/slick.min.js}"></script>
-<script th:src="@{/staticWeb/js/nouislider.min.js}"></script>
-<script th:src="@{/staticWeb/js/jquery.zoom.min.js}"></script>
-<script th:src="@{/staticWeb/js/main.js}"></script>
+    <script th:src="@{/staticWeb/js/jquery.min.js}"></script>
+    <script th:src="@{/staticWeb/js/bootstrap.min.js}"></script>
+    <script th:src="@{/staticWeb/js/slick.min.js}"></script>
+    <script th:src="@{/staticWeb/js/nouislider.min.js}"></script>
+    <script th:src="@{/staticWeb/js/jquery.zoom.min.js}"></script>
+    <script th:src="@{/staticWeb/js/main.js}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.9"
+            integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+            crossorigin="anonymous"></script>
 </div>
 </body>
 </html>

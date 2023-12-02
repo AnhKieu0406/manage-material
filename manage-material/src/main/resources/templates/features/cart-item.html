@@ -243,7 +243,7 @@
                 <p  th:text="${#numbers.formatDecimal(Total,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></p>
                 <hr />
                 <a class="btn btn-primary btn-sm" href="/shopping-cart/clear">Clear Cart</a>
-                <a class="btn btn-primary btn-sm" th:href="@{/api/listproduct}">Add more</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/store}">Add more</a>
 
                 <span th:if="${session.customerName == null}">
                  <a  class="btn btn-primary btn-sm" th:href="@{/login}">login</a>

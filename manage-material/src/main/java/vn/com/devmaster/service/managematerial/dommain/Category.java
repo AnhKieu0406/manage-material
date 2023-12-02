@@ -35,7 +35,7 @@ public class Category {
     @Column(name = "NOTES")
     private String notes;
 
-    @Size(max = 250)
+    @Size(max = 500)
     @Column(name = "ICON", length = 250)
     private String icon;
 

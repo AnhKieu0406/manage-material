@@ -2,6 +2,9 @@ package vn.com.devmaster.service.managematerial.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import vn.com.devmaster.service.managematerial.dommain.Category;
 import vn.com.devmaster.service.managematerial.dommain.Product;
 import vn.com.devmaster.service.managematerial.dto.ProductDto;
 import vn.com.devmaster.service.managematerial.mapper.ProductMapper;
@@ -10,6 +13,7 @@ import vn.com.devmaster.service.managematerial.projection.ProductCategoryName;
 import vn.com.devmaster.service.managematerial.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -19,41 +23,35 @@ public class ProductService {
     @Autowired
     ProductMapper productMap;
 
-    public List<ProductDto> findAllProduct(){
-        List<Product> list = productRepo.findAll();
-        return productMap.toDto(list);
+    public List<Product> findAllProduct(){
+//        List<Product> list = productRepo.findAll();
+        return (List<Product>) productRepo.findAll();
     }
 
-    public void save(ProductDto product){
-        Product product1 = productMap.toEntity(product);
-         productRepo.save(product1);
+    public List<Product> findByIsActive(){
+        return  productRepo.findByIsActive();
     }
-    public void save(List<ProductDto> list){
-        productRepo.saveAll(productMap.toEntity(list));
-    }
-
-    public Product findById(Integer id) {
+    public Product findAllById(Integer id) {
         return productRepo.findAllById(id);
+    }
+
+    public Optional<Product> findById(Integer id){
+        return  productRepo.findById(id);
     }
 
     public List<ProductCategoryName> findAllProductByCategory() {
         List<ProductCategoryName> findProductCategory = productRepo.findProductCategory();
         return findProductCategory;
     }
-//
-//    public int getCountProduct(){
-//        List<ProductByClassId> list = productRepo.findAllByCategory_Id()
-//        List<Product> list = productRepo.findAll();
-//        return list.size();
-//    }
 
 
-
-//    public List<ProductDto> getAllProductsByCategoryId(Integer id){
-//        List<Product> list = productRepo.findAllByCategory_Id(id);
-//        return productMap.toDto(list);
-//    }
+    public Product save(Product product){
+        return productRepo.save(product);
+    }
 
 
+    public void deleteById(Integer id) {
+        productRepo.deleteById(id);
+    }
 
 }

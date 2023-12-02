@@ -41,17 +41,18 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         Customer logInfo = (Customer) session.getAttribute("customerName");
         Customer customer = customerService.findByUsername(logInfo.getUsername());
+//        customer.setAddress(customer.getListAddresses().);
         String idOrder = UUID.randomUUID().toString().substring(0, 10);
         order.setIdorders(idOrder);
         order.setIdCustomer(customer);
         order.setOrdersDate(new Date().toInstant());
-        order.setAddress(customer.getAddress());
-        order.setPhone(customer.getPhone());
+//        order.setAddress(customer.getAddress());
+//        order.setPhone(customer.getPhone());
         order.setTotalMoney(shoppingCart1.getAmount());
         order.setNameReciver(customer.getName());
         order.setNotes("CÓ");
-        Collection<CartItem> cart = (Collection<CartItem>) session.getAttribute("cart");
-        for (CartItem item : cart) {
+
+        for (CartItem item : shoppingCart) {
             OrdersDetail ordersDetail = new OrdersDetail();
             ordersDetail.setIdord(order);
             ordersDetail.setIdproduct(item.getProduct());

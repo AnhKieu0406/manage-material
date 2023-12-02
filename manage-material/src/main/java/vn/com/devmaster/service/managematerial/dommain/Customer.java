@@ -2,11 +2,11 @@ package vn.com.devmaster.service.managematerial.dommain;
 
 import lombok.*;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.Instant;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 
 @Table(name = "customer")
-public class Customer {
+public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
@@ -52,28 +52,41 @@ public class Customer {
     @Column(name = "ISACTIVE")
     private Byte isactive;
 
+    @Column(name = "ROLE")
+    private String role;
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<CartItem> cartItems;
 
     @OneToMany(mappedBy = "idCustomer", cascade = CascadeType.ALL)
     private List<Order> orders;
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", createdDate=" + createdDate +
-                ", isactive=" + isactive +
-                ", cartItems=" + cartItems.size() +
-                ", orders=" + orders +
-                '}';
-    }
+    @OneToMany(mappedBy = "idCustomer", cascade = CascadeType.ALL)
+    private List<CustomerAddress> listAddresses;
+
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "users_role",
+//    joinColumns = @JoinColumn(name = "User_Id"),
+//    inverseJoinColumns = @JoinColumn(name="Roles_Id"))
+//    private Set<Role> roles = new HashSet<>();
+
+
+//    @Override
+//    public String toString() {
+//        return "Customer{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", username='" + username + '\'' +
+//                ", password='" + password + '\'' +
+//                ", address='" + address + '\'' +
+//                ", email='" + email + '\'' +
+//                ", phone='" + phone + '\'' +
+//                ", createdDate=" + createdDate +
+//                ", isactive=" + isactive +
+//                ", cartItems=" + cartItems.size() +
+//                ", orders=" + orders +
+//                '}';
+//    }
 
 
 }
